@@ -1,29 +1,49 @@
-import { createContext, useContext, useState } from 'react'
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+} from "react"
 
 const AppContext = createContext<any>(null)
 
 export function AppProvider({ children }: any) {
-  const [tasks, setTasks] = useState([
-    {
-      id: '1',
-      title: 'Design dashboard',
-      status: 'todo',
-    },
-  ])
 
-  const [projects, setProjects] = useState([
-    {
-      id: '1',
-      name: 'Synapse Workspace',
-      status: 'Active',
-    },
-  ])
+  const [projects, setProjects] = useState(() => {
+
+    const saved = localStorage.getItem("projects")
+
+    return saved
+      ? JSON.parse(saved)
+      : [
+          {
+            id: "1",
+            title: "Synapse Workspace",
+            description: "AI-powered productivity platform",
+            status: "Active",
+          },
+
+          {
+            id: "2",
+            title: "Realtime Engine",
+            description: "Socket.io collaboration system",
+            status: "Development",
+          },
+        ]
+  })
+
+  useEffect(() => {
+
+    localStorage.setItem(
+      "projects",
+      JSON.stringify(projects)
+    )
+
+  }, [projects])
 
   return (
     <AppContext.Provider
       value={{
-        tasks,
-        setTasks,
         projects,
         setProjects,
       }}
