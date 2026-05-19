@@ -1,11 +1,12 @@
 import {
   DndContext,
   closestCenter,
+  useDroppable,
   PointerSensor,
   useSensor,
   useSensors,
 } from '@dnd-kit/core'
-import { useDroppable } from '@dnd-kit/core'
+
 import {
   SortableContext,
   verticalListSortingStrategy,
