@@ -1,32 +1,91 @@
 import PageLayout from "@/components/layout/PageLayout"
-import { useApp } from "../../context/AppContext"
 
 import {
   FolderKanban,
   Plus,
 } from "lucide-react"
 
+import {
+  useEffect,
+  useState,
+} from "react"
+
+import {
+  createProject,
+  getProjects,
+} from "@/services/projectService"
+
+import {
+  useAuthStore,
+} from "@/store/authStore"
+
 export default function Projects() {
 
-  const { projects, setProjects } = useApp()
+  const token = useAuthStore(
+    (state) => state.token
+  )
 
-  function addProject() {
+  const [projects, setProjects] =
+    useState<any[]>([])
 
-    const name = prompt("Enter project name")
+  const fetchProjects = async () => {
 
-    if (!name) return
+    try {
 
-    const newProject = {
-      id: Date.now().toString(),
-      title: name,
-      description: "New workspace project",
-      status: "Active",
+      const data =
+        await getProjects(token!)
+
+      setProjects(data)
+
+    } catch (error) {
+
+      console.log(error)
+    }
+  }
+
+  useEffect(() => {
+
+    if (token) {
+      fetchProjects()
     }
 
-    setProjects((prev: any) => [
-      ...prev,
-      newProject,
-    ])
+  }, [token])
+
+  async function addProject() {
+
+    const title =
+      prompt("Enter project name")
+
+    if (!title?.trim()) return
+
+    try {
+
+      await createProject(
+        {
+          title,
+          description:
+            "New workspace project",
+        },
+
+        token!
+      )
+
+      fetchProjects()
+
+    } catch (error) {
+
+      console.log(error)
+    }
+  }
+
+  function deleteProject(id: string) {
+
+    setProjects((prev: any) =>
+      prev.filter(
+        (project: any) =>
+          project._id !== id
+      )
+    )
   }
 
   return (
@@ -86,7 +145,7 @@ export default function Projects() {
         {projects.map((project: any) => (
 
           <div
-            key={project.id}
+            key={project._id}
 
             className="
               cyber-card
@@ -158,7 +217,7 @@ export default function Projects() {
 
                 bg-cyan-400/5
               ">
-                {project.status}
+                {project.status || "ACTIVE"}
               </span>
 
             </div>
@@ -178,6 +237,30 @@ export default function Projects() {
             ">
               {project.description}
             </p>
+
+            <button
+              onClick={() =>
+                deleteProject(project._id)
+              }
+
+              className="
+                mt-5
+
+                border border-red-500/30
+
+                text-red-400
+
+                px-4 py-2
+
+                text-sm
+
+                hover:bg-red-500/10
+
+                transition-all
+              "
+            >
+              DELETE PROJECT
+            </button>
 
           </div>
 

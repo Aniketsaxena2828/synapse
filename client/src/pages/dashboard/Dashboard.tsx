@@ -4,7 +4,7 @@ import {
   Clock3,
   Users,
 } from "lucide-react"
-
+import { useApp } from "../../context/AppContext"
 import {
   useEffect,
   useState,
@@ -29,10 +29,12 @@ export default function Dashboard() {
     )
 
   const [data, setData] =
-    useState<any>(null)
+  useState<any>(null)
 
-  const fetchDashboard =
-    async () => {
+const { projects } = useApp()
+
+const fetchDashboard =
+  async () => {
 
       try {
 
@@ -136,7 +138,7 @@ export default function Dashboard() {
         <StatCard
           title="PROJECTS"
           value={
-            data.totalProjects.toString()
+            projects.length.toString()
           }
           change="LIVE"
         />
@@ -330,7 +332,7 @@ export default function Dashboard() {
                 text-slate-400
               ">
                 {
-                  data.totalProjects
+                  projects.length
                 }
                 {" "}
                 active projects
