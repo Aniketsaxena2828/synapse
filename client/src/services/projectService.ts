@@ -42,3 +42,19 @@ export const createProject = async (
 
   return response.data
 }
+export const deleteProject = async (
+  id: string,
+  token: string
+) => {
+
+  const response = await api.delete(
+    `/projects/${id}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  )
+
+  return response.data
+}

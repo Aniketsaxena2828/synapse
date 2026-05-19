@@ -13,6 +13,7 @@ import {
 import {
   createProject,
   getProjects,
+  deleteProject,
 } from "@/services/projectService"
 
 import {
@@ -78,15 +79,24 @@ export default function Projects() {
     }
   }
 
-  function deleteProject(id: string) {
+  async function handleDeleteProject(
+  id: string
+) {
 
-    setProjects((prev: any) =>
-      prev.filter(
-        (project: any) =>
-          project._id !== id
-      )
+  try {
+
+    await deleteProject(
+      id,
+      token!
     )
+
+    fetchProjects()
+
+  } catch (error) {
+
+    console.log(error)
   }
+}
 
   return (
 
@@ -240,7 +250,7 @@ export default function Projects() {
 
             <button
               onClick={() =>
-                deleteProject(project._id)
+                handleDeleteProject(project._id)
               }
 
               className="

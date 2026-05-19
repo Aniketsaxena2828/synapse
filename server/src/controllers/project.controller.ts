@@ -66,3 +66,28 @@ export const getProjects = async (
     })
   }
 }
+export const deleteProject = async (
+  req: AuthRequest,
+  res: Response
+) => {
+
+  try {
+
+    await Project.findOneAndDelete({
+      _id: req.params.id,
+      owner: req.userId,
+    })
+
+    res.status(200).json({
+      message: "Project deleted",
+    })
+
+  } catch (error) {
+
+    console.log(error)
+
+    res.status(500).json({
+      message: "Server Error",
+    })
+  }
+}

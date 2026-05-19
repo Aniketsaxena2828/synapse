@@ -6,9 +6,15 @@ from "../middleware/auth.middleware"
 import {
   createProject,
   getProjects,
+  deleteProject,
 } from "../controllers/project.controller"
 
 const router = express.Router()
+router.delete(
+  "/:id",
+  authMiddleware,
+  deleteProject
+)
 
 router.post(
   "/",
