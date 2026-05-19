@@ -1,10 +1,8 @@
 import {
   FolderKanban,
   CheckCircle2,
-  Clock3,
-  Users,
 } from "lucide-react"
-import { useApp } from "../../context/AppContext"
+
 import {
   useEffect,
   useState,
@@ -18,6 +16,10 @@ import {
 } from "@/services/dashboardService"
 
 import {
+  getProjects,
+} from "@/services/projectService"
+
+import {
   useAuthStore,
 } from "@/store/authStore"
 
@@ -29,12 +31,14 @@ export default function Dashboard() {
     )
 
   const [data, setData] =
-  useState<any>(null)
+    useState<any>(null)
 
-const { projects } = useApp()
+  const [projectCount,
+    setProjectCount] =
+    useState(0)
 
-const fetchDashboard =
-  async () => {
+  const fetchDashboard =
+    async () => {
 
       try {
 
@@ -51,13 +55,44 @@ const fetchDashboard =
       }
     }
 
+  const fetchProjects =
+    async () => {
+
+      try {
+
+        const projects =
+          await getProjects(
+            token!
+          )
+
+        setProjectCount(
+          projects.length
+        )
+
+      } catch (error) {
+
+        console.log(error)
+      }
+    }
+
   useEffect(() => {
-    fetchDashboard()
-  }, [])
+
+    if (token) {
+
+      fetchDashboard()
+
+      fetchProjects()
+    }
+
+  }, [token])
 
   if (!data) {
+
     return (
-      <div className="p-10">
+
+      <div className="
+        p-10
+      ">
         Loading...
       </div>
     )
@@ -138,7 +173,7 @@ const fetchDashboard =
         <StatCard
           title="PROJECTS"
           value={
-            projects.length.toString()
+            projectCount.toString()
           }
           change="LIVE"
         />
@@ -332,7 +367,7 @@ const fetchDashboard =
                 text-slate-400
               ">
                 {
-                  projects.length
+                  projectCount
                 }
                 {" "}
                 active projects
