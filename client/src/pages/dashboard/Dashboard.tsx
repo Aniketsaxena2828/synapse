@@ -71,22 +71,30 @@ export default function Dashboard() {
             "current-workspace"
           )
 
-        const keys =
-          currentWorkspaceId
-            ? [
-                `kanban-${currentWorkspaceId}`
-              ]
-            : []
+        if (!currentWorkspaceId) {
 
-        keys.forEach((key) => {
+          setData({
 
-          const saved =
-            localStorage.getItem(
-              key
-            )
+            completedTasks: 0,
 
-          if (!saved)
-            return
+            progressTasks: 0,
+
+            overdueTasks: 0,
+
+            totalTasks: 0,
+
+            recentTasks: [],
+          })
+
+          return
+        }
+
+        const saved =
+          localStorage.getItem(
+            `kanban-${currentWorkspaceId}`
+          )
+
+        if (saved) {
 
           try {
 
@@ -109,7 +117,7 @@ export default function Dashboard() {
 
             console.log(error)
           }
-        })
+        }
 
         const recentTasks: Task[] = [
 
@@ -124,6 +132,13 @@ export default function Dashboard() {
             (task: Task) => ({
               ...task,
               status: "progress",
+            })
+          ),
+
+          ...allBoards.completed.map(
+            (task: Task) => ({
+              ...task,
+              status: "completed",
             })
           ),
         ]
@@ -330,144 +345,71 @@ export default function Dashboard() {
             gap-5
           ">
 
-            {data.recentTasks.map(
-              (task: Task) => (
+            {data.recentTasks.length > 0 ? (
 
-                <div
-                  key={task.id || task.title}
+              data.recentTasks.map(
+                (task: Task) => (
 
-                  className="
-                    border
-                    border-cyan-400/10
+                  <div
+                    key={task.id || task.title}
 
-                    bg-cyan-400/5
+                    className="
+                      border
+                      border-cyan-400/10
 
-                    p-5
-                  "
-                >
+                      bg-cyan-400/5
 
-                  <div className="
-                    flex items-center
-                    gap-3
-                    mb-4
-                  ">
+                      p-5
+                    "
+                  >
 
-                    <CheckCircle2
-                      className="
-                        text-cyan-400
-                      "
-                      size={20}
-                    />
-
-                    <p className="
-                      uppercase
-                      tracking-wide
-                      text-sm
-                      text-cyan-400
+                    <div className="
+                      flex items-center
+                      gap-3
+                      mb-4
                     ">
-                      {task.status}
-                    </p>
+
+                      <CheckCircle2
+                        className="
+                          text-cyan-400
+                        "
+                        size={20}
+                      />
+
+                      <p className="
+                        uppercase
+                        tracking-wide
+                        text-sm
+                        text-cyan-400
+                      ">
+                        {task.status}
+                      </p>
+
+                    </div>
+
+                    <h3 className="
+                      text-2xl
+                      font-bold
+                      mb-3
+                    ">
+                      {task.title}
+                    </h3>
 
                   </div>
 
-                  <h3 className="
-                    text-2xl
-                    font-bold
-                    mb-3
-                  ">
-                    {task.title}
-                  </h3>
-
-                </div>
-
+                )
               )
+
+            ) : (
+
+              <div className="
+                text-slate-400
+                text-lg
+              ">
+                No tasks available.
+              </div>
+
             )}
-
-          </div>
-
-        </div>
-
-        <div className="
-          cyber-card
-          p-7
-        ">
-
-          <p className="
-            text-cyan-400
-            uppercase
-            tracking-widest
-            text-sm
-            mb-3
-          ">
-            Workspace
-          </p>
-
-          <h2 className="
-            text-3xl
-            font-black
-            mb-8
-          ">
-            Team Status
-          </h2>
-
-          <div className="
-            flex flex-col
-            gap-5
-          ">
-
-            <div className="
-              border
-              border-white/5
-
-              p-5
-            ">
-
-              <h2 className="
-                text-xl
-                font-bold
-                mb-2
-              ">
-                Total Tasks
-              </h2>
-
-              <p className="
-                text-slate-400
-              ">
-                {
-                  data.totalTasks
-                }
-                {" "}
-                tasks created
-              </p>
-
-            </div>
-
-            <div className="
-              border
-              border-white/5
-
-              p-5
-            ">
-
-              <h2 className="
-                text-xl
-                font-bold
-                mb-2
-              ">
-                Active Projects
-              </h2>
-
-              <p className="
-                text-slate-400
-              ">
-                {
-                  projectCount
-                }
-                {" "}
-                active projects
-              </p>
-
-            </div>
 
           </div>
 
