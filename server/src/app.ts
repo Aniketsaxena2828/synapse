@@ -7,12 +7,12 @@ import authRoutes from "./routes/auth.routes"
 import projectRoutes from "./routes/project.routes"
 import workspaceRoutes from "./routes/workspace.routes"
 const app = express()
-
 app.use(
   cors({
     origin: [
       "http://localhost:5173",
       "https://anisynapse.netlify.app",
+      "https://synapse-anii1ket.vercel.app",
     ],
     credentials: true,
   })
