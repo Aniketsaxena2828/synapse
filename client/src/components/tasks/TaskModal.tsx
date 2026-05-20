@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import axios from "axios"
 import socket from "@/lib/socket"
-
+import api from "@/lib/axios"
 import TaskModal from "@/components/tasks/TaskModal"
 
 interface Task {
@@ -42,9 +42,9 @@ export default function KanbanBoard({
   const fetchTasks = async () => {
     try {
 
-      const res = await axios.get(
-        `http://localhost:5000/api/tasks/${projectId}`
-      )
+      const res = await api.get(
+  `/tasks/${projectId}`
+)
 
       setTasks(res.data)
 

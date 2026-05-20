@@ -1,7 +1,7 @@
 import axios from "axios"
 
 const API =
-  "http://localhost:5000/api/tasks"
+  `${import.meta.env.VITE_API_URL}/api/tasks`
 
 export const getTasks =
   async (
