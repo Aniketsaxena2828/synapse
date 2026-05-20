@@ -14,6 +14,10 @@ import {
   useAuthStore,
 } from "@/store/authStore"
 
+import {
+  useApp,
+} from "../../context/AppContext"
+
 export default function Analytics() {
 
   const token =
@@ -21,12 +25,12 @@ export default function Analytics() {
       (state) => state.token
     )
 
+  const {
+    boards,
+  } = useApp()
+
   const [projects,
     setProjects] =
-    useState<any[]>([])
-
-  const [tasks,
-    setTasks] =
     useState<any[]>([])
 
   const fetchProjects =
@@ -47,69 +51,28 @@ export default function Analytics() {
       }
     }
 
-  const fetchTasks =
-    async () => {
-
-      try {
-
-        const response =
-          await fetch(
-            "http://localhost:5000/api/tasks",
-            {
-              headers: {
-                Authorization:
-                  `Bearer ${token}`,
-              },
-            }
-          )
-
-        const data =
-          await response.json()
-
-        setTasks(data)
-
-      } catch (error) {
-
-        console.log(error)
-      }
-    }
-
   useEffect(() => {
 
     if (token) {
 
       fetchProjects()
-
-      fetchTasks()
     }
 
   }, [token])
 
-  const completed =
-    tasks.filter(
-      (task) =>
-        task.status ===
-        "completed"
-    ).length
+  const todo =
+    boards.todo.length
 
   const progress =
-    tasks.filter(
-      (task) =>
-        task.status ===
-        "in-progress"
-    ).length
+    boards.progress.length
 
-  const todo =
-    tasks.filter(
-      (task) =>
-        task.status ===
-        "todo"
-    ).length
+  const completed =
+    boards.completed.length
 
   const total =
-    completed +
+    todo +
     progress +
-    todo
+    completed
 
   const completedPercent =
     total
@@ -438,91 +401,6 @@ export default function Analytics() {
                 <span>
                   Completed
                 </span>
-
-              </div>
-
-            </div>
-
-            <div className="
-              mt-10
-              border
-              border-cyan-400/10
-              p-5
-              w-full
-            ">
-
-              <h3 className="
-                text-2xl
-                font-bold
-                mb-4
-              ">
-                Realtime Analysis
-              </h3>
-
-              <div className="
-                flex
-                flex-col
-                gap-4
-                text-slate-300
-              ">
-
-                <p>
-                  🔴 Todo Tasks:
-                  {" "}
-                  <span className="
-                    text-red-400
-                    font-bold
-                  ">
-                    {todo}
-                  </span>
-                  {" "}
-                  tasks are waiting
-                  to be started.
-                </p>
-
-                <p>
-                  🟡 In Progress:
-                  {" "}
-                  <span className="
-                    text-yellow-300
-                    font-bold
-                  ">
-                    {progress}
-                  </span>
-                  {" "}
-                  tasks are actively
-                  being worked on.
-                </p>
-
-                <p>
-                  🌸 Completed:
-                  {" "}
-                  <span className="
-                    text-pink-400
-                    font-bold
-                  ">
-                    {completed}
-                  </span>
-                  {" "}
-                  tasks have been
-                  successfully finished.
-                </p>
-
-                <p>
-                  Current workspace
-                  productivity is
-                  approximately
-                  {" "}
-                  <span className="
-                    text-cyan-400
-                    font-bold
-                  ">
-                    {completedPercent}%
-                  </span>
-                  {" "}
-                  based on completed
-                  task distribution.
-                </p>
 
               </div>
 

@@ -6,7 +6,9 @@ import {
   useSensor,
   useSensors,
 } from '@dnd-kit/core'
-
+import {
+  useApp,
+} from "../../context/AppContext"
 import {
   SortableContext,
   verticalListSortingStrategy,
@@ -46,11 +48,10 @@ const initialData = {
 }
 
 export default function KanbanBoard() {
-  const [boards, setBoards] = useState(() => {
-    const saved = localStorage.getItem('kanban-data')
-
-    return saved ? JSON.parse(saved) : initialData
-  })
+  const {
+  boards,
+  setBoards,
+} = useApp()
 
   const [taskText, setTaskText] = useState('')
 

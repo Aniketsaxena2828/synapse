@@ -5,50 +5,59 @@ import {
   useState,
 } from "react"
 
-const AppContext = createContext<any>(null)
+const AppContext =
+  createContext<any>(null)
 
-export function AppProvider({ children }: any) {
+const initialBoards = {
+  todo: [
+    {
+      id: "1",
+      title: "Design dashboard",
+    },
+  ],
 
-  const [projects, setProjects] = useState(() => {
+  progress: [],
 
-    const saved = localStorage.getItem("projects")
+  completed: [],
+}
 
-    return saved
-      ? JSON.parse(saved)
-      : [
-          {
-            id: "1",
-            title: "Synapse Workspace",
-            description: "AI-powered productivity platform",
-            status: "Active",
-          },
+export function AppProvider({
+  children,
+}: any) {
 
-          {
-            id: "2",
-            title: "Realtime Engine",
-            description: "Socket.io collaboration system",
-            status: "Development",
-          },
-        ]
-  })
+  const [boards, setBoards] =
+    useState(() => {
+
+      const saved =
+        localStorage.getItem(
+          "kanban-data"
+        )
+
+      return saved
+        ? JSON.parse(saved)
+        : initialBoards
+    })
 
   useEffect(() => {
 
     localStorage.setItem(
-      "projects",
-      JSON.stringify(projects)
+      "kanban-data",
+      JSON.stringify(boards)
     )
 
-  }, [projects])
+  }, [boards])
 
   return (
+
     <AppContext.Provider
       value={{
-        projects,
-        setProjects,
+        boards,
+        setBoards,
       }}
     >
+
       {children}
+
     </AppContext.Provider>
   )
 }
