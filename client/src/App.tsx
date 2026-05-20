@@ -1,38 +1,44 @@
-import { Routes, Route } from "react-router-dom"
+import { Routes, Route }
+from "react-router-dom"
 
-import KanbanBoard from "./pages/kanban/KanbanBoard"
+import KanbanBoard
+from "./pages/kanban/KanbanBoard"
 
-import DashboardLayout from "./layouts/DashboardLayout"
+import DashboardLayout
+from "./layouts/DashboardLayout"
 
-import Dashboard from "./pages/dashboard/Dashboard"
+import Dashboard
+from "./pages/dashboard/Dashboard"
 
-import Projects from "./pages/projects/Projects"
+import Projects
+from "./pages/projects/Projects"
 
-import ProjectDetails from "./pages/projects/ProjectDetails"
+import ProjectDetails
+from "./pages/projects/ProjectDetails"
 
-import Analytics from "./pages/analytics/Analytics"
+import Analytics
+from "./pages/analytics/Analytics"
 
-import Members from "./pages/members/Members"
+import Members
+from "./pages/members/Members"
 
+import Settings
+from "./pages/settings/Settings"
 
-import Settings from "./pages/settings/Settings"
+import Login
+from "./pages/auth/Login"
 
-import Login from "./pages/auth/Login"
+import Register
+from "./pages/auth/Register"
 
-import Register from "./pages/auth/Register"
-
-import ProtectedRoute from "./routes/ProtectedRoute"
+import ProtectedRoute
+from "./routes/ProtectedRoute"
 
 export default function App() {
 
   return (
 
     <Routes>
-
-      <Route
-        path="/kanban"
-        element={<KanbanBoard />}
-      />
 
       <Route
         path="/login"
@@ -61,6 +67,11 @@ export default function App() {
         />
 
         <Route
+          path="kanban"
+          element={<KanbanBoard />}
+        />
+
+        <Route
           path="projects"
           element={<Projects />}
         />
@@ -79,8 +90,6 @@ export default function App() {
           path="members"
           element={<Members />}
         />
-
-        
 
         <Route
           path="settings"
