@@ -31,7 +31,7 @@ app.use(
 app.use(cookieParser())
 
 app.get("/", (req, res) => {
-  res.send("Synapse Backend Running")
+  res.send("NEW BACKEND VERSION")
 })
 app.use(
   "/api/dashboard",
