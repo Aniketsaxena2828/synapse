@@ -28,7 +28,11 @@ export const createWorkspace =
         name,
         isPrivate,
       } = req.body
-
+      if (!req.userId) {
+  return res.status(401).json({
+    message: "Unauthorized",
+  })
+}
       const workspace =
         await Workspace.create({
 
