@@ -188,115 +188,162 @@ body {
 .light {
 
   background:
-    linear-gradient(
-      to bottom right,
-      #dbeafe,
-      #bfdbfe,
-      #c7d2fe
-    );
+    #e2e8f0;
 
-  color: #0f172a;
+  color:
+    #0f172a;
 
-  min-height: 100vh;
+  min-height:
+    100vh;
+}
+
+.light body {
+
+  background:
+    #e2e8f0;
 }
 
 .light .cyber-card {
 
   background:
-    rgba(255,255,255,0.35)
+    #f8fafc
     !important;
-
-  backdrop-filter:
-    blur(18px);
 
   border:
     1px solid
-    rgba(255,255,255,0.3)
+    #cbd5e1
     !important;
 
   box-shadow:
-    0 8px 30px
-    rgba(0,0,0,0.08);
+    0 4px 20px
+    rgba(0,0,0,0.06);
 
   color:
-    #0f172a;
+    #0f172a
+    !important;
 }
 
 .light aside {
 
   background:
-    rgba(255,255,255,0.25)
+    #dbe4f0
     !important;
 
-  backdrop-filter:
-    blur(18px);
-
   border-color:
-    rgba(255,255,255,0.25)
+    #cbd5e1
     !important;
 }
 
 .light input {
 
   background:
-    rgba(255,255,255,0.45)
-    !important;
-
-  color:
-    #0f172a
+    white
     !important;
 
   border:
     1px solid
-    rgba(255,255,255,0.25)
+    #cbd5e1
+    !important;
+
+  color:
+    #0f172a
     !important;
 }
 
 .light input::placeholder {
 
   color:
-    #475569;
+    #64748b;
 }
 
-.light .text-slate-400 {
+.light h1,
+.light h2,
+.light h3,
+.light h4 {
+
+  color:
+    #0f172a
+    !important;
+}
+
+.light p,
+.light span,
+.light div {
+
+  color:
+    #334155;
+}
+
+.light nav a {
 
   color:
     #334155
     !important;
 }
 
-.light nav a {
-
-  color:
-    #1e293b
-    !important;
-}
-
 .light nav a:hover {
 
   background:
-    rgba(255,255,255,0.35)
+    #e0f2fe
     !important;
 
   border-color:
-    rgba(255,255,255,0.35)
+    #7dd3fc
+    !important;
+}
+
+.light .text-slate-400 {
+
+  color:
+    #64748b
     !important;
 }
 
 .light button {
 
   box-shadow:
-    0 6px 20px
+    0 4px 12px
     rgba(0,0,0,0.08);
 }
 
-.light body {
+
+
+
+
+
+
+.light [class*="bg-#"],
+.light .bg-black,
+.light .bg-\[\#020817\],
+.light .bg-\[\#030712\] {
 
   background:
-    linear-gradient(
-      to bottom right,
-      #dbeafe,
-      #bfdbfe,
-      #c7d2fe
-    );
+    rgba(255,255,255,0.18)
+    !important;
+
+  backdrop-filter:
+    blur(18px);
+
+  color:
+    #0f172a
+    !important;
+}
+
+.light h1,
+.light h2,
+.light h3,
+.light h4,
+.light p,
+.light span,
+.light div {
+
+  color:
+    #0f172a;
+}
+
+.light .recharts-wrapper {
+
+  color:
+    #0f172a
+    !important;
 }
