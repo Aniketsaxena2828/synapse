@@ -43,11 +43,7 @@ const menuItems = [
     path: "/members",
   },
 
-  {
-    title: "AI Assistant",
-    icon: Brain,
-    path: "/ai",
-  },
+  
 
   {
     title: "Settings",
