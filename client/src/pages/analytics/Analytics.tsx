@@ -489,8 +489,13 @@ export default function Analytics() {
 
             <div className="
   flex
-  gap-8
+  items-center
+  justify-center
+  gap-10
+
   mt-10
+
+  flex-wrap
 ">
 
   <div className="
@@ -500,12 +505,18 @@ export default function Analytics() {
   ">
 
     <div className="
-      w-4
-      h-4
-      bg-red-500
+      w-5
+      h-5
+
+      rounded-sm
+
+      bg-sky-400
     " />
 
-    <span>
+    <span className="
+      text-slate-300
+      text-lg
+    ">
       Todo
     </span>
 

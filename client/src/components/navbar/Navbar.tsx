@@ -1,5 +1,4 @@
 import {
-  Bell,
   LogOut,
 } from "lucide-react"
 
@@ -35,68 +34,19 @@ export default function Navbar() {
 
         px-10
 
-        flex items-center
-        justify-between
+        flex
+        items-center
+        justify-end
       "
     >
 
       <div
         className="
-          cyber-card
-
-          w-[430px]
-
-          px-5 py-4
-
-          flex items-center
-          gap-4
-
-          border
-        "
-      >
-
-        
-
-        
-
-      </div>
-
-      <div
-        className="
-          flex items-center
+          flex
+          items-center
           gap-5
         "
       >
-
-        <button
-          className="
-            cyber-card
-
-            p-4
-
-            border
-
-            relative
-          "
-        >
-
-          <Bell size={20} />
-
-          <span
-            className="
-              absolute
-
-              top-2
-              right-2
-
-              w-2
-              h-2
-
-              bg-cyan-400
-            "
-          />
-
-        </button>
 
         <div className="relative">
 
@@ -109,13 +59,15 @@ export default function Navbar() {
             className="
               cyber-button
 
-              w-12 h-12
+              w-12
+              h-12
 
               text-black
 
               font-black
 
-              flex items-center
+              flex
+              items-center
               justify-center
             "
           >
@@ -153,9 +105,11 @@ export default function Navbar() {
                 className="
                   w-full
 
-                  px-5 py-4
+                  px-5
+                  py-4
 
-                  flex items-center
+                  flex
+                  items-center
                   gap-3
 
                   text-slate-300

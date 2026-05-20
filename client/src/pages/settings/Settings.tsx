@@ -15,12 +15,8 @@ export default function Settings() {
     user,
 
     darkMode,
-
-    notificationsEnabled,
-
     toggleDarkMode,
 
-    toggleNotifications,
 
     updateUser,
   } = useAuthStore()
@@ -126,54 +122,7 @@ export default function Settings() {
           p-8
         ">
 
-          <div className="
-            flex items-center
-            justify-between
-            mb-6
-          ">
-
-            <div>
-
-              <h2 className="
-                text-2xl
-                font-bold
-                mb-2
-              ">
-                Email Notifications
-              </h2>
-
-              <p className="
-                text-slate-400
-              ">
-                Receive workspace updates
-              </p>
-
-            </div>
-
-            <button
-
-              onClick={
-                toggleNotifications
-              }
-
-              className="
-                cyber-button
-                px-5
-                py-3
-                text-black
-                font-bold
-              "
-            >
-              {
-                notificationsEnabled
-
-                  ? "Enabled"
-
-                  : "Disabled"
-              }
-            </button>
-
-          </div>
+          
 
           <div className="
             flex items-center
