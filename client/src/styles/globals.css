@@ -184,3 +184,119 @@ body {
       transparent
     );
 }
+
+.light {
+
+  background:
+    linear-gradient(
+      to bottom right,
+      #dbeafe,
+      #bfdbfe,
+      #c7d2fe
+    );
+
+  color: #0f172a;
+
+  min-height: 100vh;
+}
+
+.light .cyber-card {
+
+  background:
+    rgba(255,255,255,0.35)
+    !important;
+
+  backdrop-filter:
+    blur(18px);
+
+  border:
+    1px solid
+    rgba(255,255,255,0.3)
+    !important;
+
+  box-shadow:
+    0 8px 30px
+    rgba(0,0,0,0.08);
+
+  color:
+    #0f172a;
+}
+
+.light aside {
+
+  background:
+    rgba(255,255,255,0.25)
+    !important;
+
+  backdrop-filter:
+    blur(18px);
+
+  border-color:
+    rgba(255,255,255,0.25)
+    !important;
+}
+
+.light input {
+
+  background:
+    rgba(255,255,255,0.45)
+    !important;
+
+  color:
+    #0f172a
+    !important;
+
+  border:
+    1px solid
+    rgba(255,255,255,0.25)
+    !important;
+}
+
+.light input::placeholder {
+
+  color:
+    #475569;
+}
+
+.light .text-slate-400 {
+
+  color:
+    #334155
+    !important;
+}
+
+.light nav a {
+
+  color:
+    #1e293b
+    !important;
+}
+
+.light nav a:hover {
+
+  background:
+    rgba(255,255,255,0.35)
+    !important;
+
+  border-color:
+    rgba(255,255,255,0.35)
+    !important;
+}
+
+.light button {
+
+  box-shadow:
+    0 6px 20px
+    rgba(0,0,0,0.08);
+}
+
+.light body {
+
+  background:
+    linear-gradient(
+      to bottom right,
+      #dbeafe,
+      #bfdbfe,
+      #c7d2fe
+    );
+}

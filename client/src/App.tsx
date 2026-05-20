@@ -14,7 +14,6 @@ import Analytics from "./pages/analytics/Analytics"
 
 import Members from "./pages/members/Members"
 
-import AIAssistant from "./pages/ai/AIAssistant"
 
 import Settings from "./pages/settings/Settings"
 
@@ -81,10 +80,7 @@ export default function App() {
           element={<Members />}
         />
 
-        <Route
-          path="ai"
-          element={<AIAssistant />}
-        />
+        
 
         <Route
           path="settings"

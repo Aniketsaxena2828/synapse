@@ -3,13 +3,17 @@ import {
   FolderKanban,
   BarChart3,
   Users,
-  Brain,
   Settings,
   KanbanSquare,
+  PanelLeftClose,
 } from "lucide-react"
 
 import { NavLink }
 from "react-router-dom"
+
+import {
+  useAuthStore,
+} from "@/store/authStore"
 
 const menuItems = [
 
@@ -43,8 +47,6 @@ const menuItems = [
     path: "/members",
   },
 
-  
-
   {
     title: "Settings",
     icon: Settings,
@@ -54,11 +56,19 @@ const menuItems = [
 
 export default function Sidebar() {
 
+  const {
+    sidebarCollapsed,
+    toggleSidebar,
+  } = useAuthStore()
+
   return (
 
     <aside
-      className="
-        w-[290px]
+      className={`
+        ${sidebarCollapsed
+          ? "w-[90px]"
+          : "w-[290px]"
+        }
 
         cyber-card
 
@@ -71,7 +81,10 @@ export default function Sidebar() {
         hidden md:flex
 
         flex-col
-      "
+
+        transition-all
+        duration-300
+      `}
     >
 
       <h1
@@ -89,11 +102,32 @@ export default function Sidebar() {
           bg-clip-text
           text-transparent
 
-          mb-14
+          mb-8
         "
       >
-        SYNAPSE
+        {!sidebarCollapsed
+          ? "SYNAPSE"
+          : "S"
+        }
       </h1>
+
+      <button
+
+        onClick={
+          toggleSidebar
+        }
+
+        className="
+          mb-8
+          text-cyan-400
+          hover:text-white
+          transition-all
+        "
+      >
+
+        <PanelLeftClose />
+
+      </button>
 
       <nav className="
         flex flex-col
@@ -158,7 +192,8 @@ export default function Sidebar() {
 
               <Icon size={19} />
 
-              {item.title}
+              {!sidebarCollapsed
+                && item.title}
 
             </NavLink>
 
