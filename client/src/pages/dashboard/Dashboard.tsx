@@ -1,5 +1,4 @@
 import {
-  FolderKanban,
   CheckCircle2,
 } from "lucide-react"
 
@@ -10,10 +9,6 @@ import {
 
 import StatCard
 from "@/components/dashboard/StatCard"
-
-import {
-  getDashboardData,
-} from "@/services/dashboardService"
 
 import {
   getProjects,
@@ -38,29 +33,32 @@ export default function Dashboard() {
     useState(0)
 
   const fetchDashboard =
-  async () => {
+    async () => {
 
-    try {
+      try {
 
-      const allBoards = {
+        const allBoards = {
 
-        todo: [],
+          todo: [],
 
-        progress: [],
+          progress: [],
 
-        completed: [],
-      }
+          completed: [],
+        }
 
-      Object.keys(localStorage)
+        const currentWorkspaceId =
+          localStorage.getItem(
+            "current-workspace"
+          )
 
-  .filter(
-    (key) =>
-      key.startsWith(
-        "kanban-"
-      )
-  )
+        const keys =
+          currentWorkspaceId
+            ? [
+                `kanban-${currentWorkspaceId}`
+              ]
+            : []
 
-        .forEach((key) => {
+        keys.forEach((key) => {
 
           const saved =
             localStorage.getItem(
@@ -93,51 +91,51 @@ export default function Dashboard() {
           }
         })
 
-      const recentTasks = [
+        const recentTasks = [
 
-        ...allBoards.todo.map(
-          (task: any) => ({
-            ...task,
-            status: "todo",
-          })
-        ),
+          ...allBoards.todo.map(
+            (task: any) => ({
+              ...task,
+              status: "todo",
+            })
+          ),
 
-        ...allBoards.progress.map(
-          (task: any) => ({
-            ...task,
-            status: "progress",
-          })
-        ),
-      ]
+          ...allBoards.progress.map(
+            (task: any) => ({
+              ...task,
+              status: "progress",
+            })
+          ),
+        ]
 
-      setData({
+        setData({
 
-        completedTasks:
-          allBoards.completed.length,
+          completedTasks:
+            allBoards.completed.length,
 
-        progressTasks:
-          allBoards.progress.length,
+          progressTasks:
+            allBoards.progress.length,
 
-        overdueTasks:
-          allBoards.todo.length,
+          overdueTasks:
+            allBoards.todo.length,
 
-        totalTasks:
+          totalTasks:
 
-          allBoards.todo.length +
+            allBoards.todo.length +
 
-          allBoards.progress.length +
+            allBoards.progress.length +
 
-          allBoards.completed.length,
+            allBoards.completed.length,
 
-        recentTasks:
-          recentTasks.slice(0, 6),
-      })
+          recentTasks:
+            recentTasks.slice(0, 6),
+        })
 
-    } catch (error) {
+      } catch (error) {
 
-      console.log(error)
+        console.log(error)
+      }
     }
-  }
 
   const fetchProjects =
     async () => {
@@ -316,7 +314,7 @@ export default function Dashboard() {
               (task: any) => (
 
                 <div
-                  key={task._id}
+                  key={task.id}
 
                   className="
                     border
@@ -359,14 +357,6 @@ export default function Dashboard() {
                   ">
                     {task.title}
                   </h3>
-
-                  <p className="
-                    text-slate-400
-                  ">
-                    {
-                      task.description
-                    }
-                  </p>
 
                 </div>
 
