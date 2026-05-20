@@ -8,8 +8,10 @@ import {
   PanelLeftClose,
 } from "lucide-react"
 
-import { NavLink }
-from "react-router-dom"
+import {
+  Link,
+  NavLink,
+} from "react-router-dom"
 
 import {
   useAuthStore,
@@ -65,20 +67,19 @@ export default function Sidebar() {
 
     <aside
       className={`
-        ${sidebarCollapsed
-          ? "w-[90px]"
-          : "w-[290px]"
+        ${
+          sidebarCollapsed
+            ? "w-[90px]"
+            : "w-[290px]"
         }
 
         cyber-card
-
         border-r
-
         h-screen
-
         p-7
 
-        hidden md:flex
+        hidden
+        md:flex
 
         flex-col
 
@@ -87,29 +88,35 @@ export default function Sidebar() {
       `}
     >
 
-      <h1
-        className="
-          text-5xl
+      <Link to="/">
 
-          font-black
+        <h1
+          className="
+            text-5xl
 
-          tracking-tight
+            font-black
 
-          bg-gradient-to-r
-          from-cyan-400
-          to-purple-500
+            tracking-tight
 
-          bg-clip-text
-          text-transparent
+            bg-gradient-to-r
+            from-cyan-400
+            to-purple-500
 
-          mb-8
-        "
-      >
-        {!sidebarCollapsed
-          ? "SYNAPSE"
-          : "S"
-        }
-      </h1>
+            bg-clip-text
+            text-transparent
+
+            mb-8
+
+            cursor-pointer
+          "
+        >
+          {!sidebarCollapsed
+            ? "SYNAPSE"
+            : "S"
+          }
+        </h1>
+
+      </Link>
 
       <button
 
@@ -129,27 +136,37 @@ export default function Sidebar() {
 
       </button>
 
-      <nav className="
-        flex flex-col
-        gap-4
-      ">
+      <nav
+        className="
+          flex
+          flex-col
+          gap-4
+        "
+      >
 
         {menuItems.map((item) => {
 
-          const Icon = item.icon
+          const Icon =
+            item.icon
 
           return (
 
             <NavLink
               key={item.title}
+
               to={item.path}
 
-              className={({ isActive }) => `
+              className={({
+                isActive,
+              }) => `
 
-                flex items-center
+                flex
+                items-center
+
                 gap-4
 
-                px-5 py-4
+                px-5
+                py-4
 
                 border
 
@@ -192,8 +209,10 @@ export default function Sidebar() {
 
               <Icon size={19} />
 
-              {!sidebarCollapsed
-                && item.title}
+              {
+                !sidebarCollapsed
+                && item.title
+              }
 
             </NavLink>
 

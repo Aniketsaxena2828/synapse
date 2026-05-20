@@ -1,6 +1,5 @@
 import {
   Bell,
-  Search,
   LogOut,
 } from "lucide-react"
 
@@ -56,30 +55,9 @@ export default function Navbar() {
         "
       >
 
-        <Search
-          className="
-            text-cyan-400
-          "
-          size={18}
-        />
+        
 
-        <input
-          type="text"
-
-          placeholder="
-            Search tasks, projects...
-          "
-
-          className="
-            cyber-input
-
-            bg-transparent
-
-            border-none
-
-            w-full
-          "
-        />
+        
 
       </div>
 
