@@ -45,78 +45,66 @@ export default function KanbanBoard() {
 
   useEffect(() => {
 
-    if (
-      !workspaceId ||
-      workspaceId ===
-        "undefined"
-    ) {
+    if (!workspaceId)
       return
-    }
 
     const saved =
       localStorage.getItem(
         `kanban-${workspaceId}`
       )
 
-    if (saved) {
+    try {
 
-      try {
+      const parsed = saved
+        ? JSON.parse(saved)
+        : null
 
-        const parsed =
-          JSON.parse(saved)
+      setBoards(
 
-        setBoards({
+        parsed || {
 
-          todo:
-            parsed.todo || [],
+          todo: [],
 
-          progress:
-            parsed.progress || [],
+          progress: [],
 
-          completed:
-            parsed.completed || [],
-        })
+          completed: [],
+        }
+      )
 
-      } catch (error) {
+    } catch {
 
-        console.log(error)
-      }
+      console.log(
+        "Invalid localStorage data"
+      )
+
+      setBoards({
+
+        todo: [],
+
+        progress: [],
+
+        completed: [],
+      })
     }
 
-  }, [workspaceId])
+  }, [workspaceId, setBoards])
 
   useEffect(() => {
 
-  if (
-    !workspaceId ||
-    workspaceId ===
-      "undefined"
-  ) {
-    return
-  }
+    if (!workspaceId || !boards)
+      return
 
-  if (
-    !boards ||
-    (
-      boards.todo.length === 0 &&
-      boards.progress.length === 0 &&
-      boards.completed.length === 0
+    localStorage.setItem(
+
+      `kanban-${workspaceId}`,
+
+      JSON.stringify(boards)
     )
-  ) {
-    return
-  }
 
-  localStorage.setItem(
-
-    `kanban-${workspaceId}`,
-
-    JSON.stringify(boards)
-  )
-
-}, [
-  boards,
-  workspaceId,
-])
+  }, [
+    boards,
+    workspaceId,
+  ])
 
   const sensors =
     useSensors(
@@ -139,10 +127,15 @@ export default function KanbanBoard() {
 
     setBoards((prev: any) => ({
 
-      ...prev,
+      ...(prev || {
+
+        todo: [],
+        progress: [],
+        completed: [],
+      }),
 
       todo: [
-        ...(prev.todo || []),
+        ...(prev?.todo || []),
         newTask,
       ],
 
@@ -161,7 +154,7 @@ export default function KanbanBoard() {
       ...prev,
 
       [column]:
-        prev[column].filter(
+        (prev?.[column] || []).filter(
           (task: any) =>
             task.id !== id
         ),
@@ -170,6 +163,9 @@ export default function KanbanBoard() {
   }
 
   function findContainer(id: string) {
+
+    if (!boards)
+      return null
 
     if (
       boards[
@@ -197,6 +193,9 @@ export default function KanbanBoard() {
   }
 
   function handleDragEnd(event: any) {
+
+    if (!boards)
+      return
 
     const {
       active,
@@ -227,7 +226,7 @@ export default function KanbanBoard() {
       const items =
         boards[
           activeContainer as keyof typeof boards
-        ]
+        ] || []
 
       const oldIndex =
         items.findIndex(
@@ -257,15 +256,15 @@ export default function KanbanBoard() {
     } else {
 
       const activeItems = [
-        ...boards[
+        ...(boards[
           activeContainer as keyof typeof boards
-        ],
+        ] || []),
       ]
 
       const overItems = [
-        ...boards[
+        ...(boards[
           overContainer as keyof typeof boards
-        ],
+        ] || []),
       ]
 
       const activeIndex =
@@ -408,21 +407,21 @@ export default function KanbanBoard() {
           <Column
             id="todo"
             title="TODO"
-            tasks={boards.todo || []}
+            tasks={boards?.todo || []}
             deleteTask={deleteTask}
           />
 
           <Column
             id="progress"
             title="IN PROGRESS"
-            tasks={boards.progress || []}
+            tasks={boards?.progress || []}
             deleteTask={deleteTask}
           />
 
           <Column
             id="completed"
             title="COMPLETED"
-            tasks={boards.completed || []}
+            tasks={boards?.completed || []}
             deleteTask={deleteTask}
           />
 
