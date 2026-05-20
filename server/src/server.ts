@@ -6,35 +6,26 @@ import http from "http"
 
 import app from "./app"
 
-import connectDB
-from "./config/db"
+import connectDB from "./config/db"
 
-const PORT =
-  process.env.PORT || 5000
+const PORT = process.env.PORT || 5000
 
-const startServer =
-async () => {
-
+const startServer = async () => {
   try {
+    console.log("Connecting DB...")
 
     await connectDB()
 
-    const server =
-      http.createServer(app)
+    console.log("DB Connected")
 
-    server.listen(
-      PORT,
-      () => {
+    const server = http.createServer(app)
 
-        console.log(
-          `Server running on port ${PORT}`
-        )
-      }
-    )
+    server.listen(PORT, () => {
+      console.log(`Server running on port ${PORT}`)
+    })
 
   } catch (error) {
-
-    console.log(error)
+    console.error("SERVER ERROR:", error)
   }
 }
 
