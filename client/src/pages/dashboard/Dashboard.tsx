@@ -415,6 +415,90 @@ export default function Dashboard() {
 
         </div>
 
+        <div className="
+          cyber-card
+          p-7
+        ">
+
+          <p className="
+            text-cyan-400
+            uppercase
+            tracking-widest
+            text-sm
+            mb-3
+          ">
+            Workspace
+          </p>
+
+          <h2 className="
+            text-3xl
+            font-black
+            mb-8
+          ">
+            Team Status
+          </h2>
+
+          <div className="
+            flex flex-col
+            gap-5
+          ">
+
+            <div className="
+              border
+              border-white/5
+              p-5
+            ">
+
+              <h2 className="
+                text-xl
+                font-bold
+                mb-2
+              ">
+                Total Tasks
+              </h2>
+
+              <p className="
+                text-slate-400
+              ">
+                {
+                  data.totalTasks
+                }
+                {" "}
+                tasks created
+              </p>
+
+            </div>
+
+            <div className="
+              border
+              border-white/5
+              p-5
+            ">
+
+              <h2 className="
+                text-xl
+                font-bold
+                mb-2
+              ">
+                Active Projects
+              </h2>
+
+              <p className="
+                text-slate-400
+              ">
+                {
+                  projectCount
+                }
+                {" "}
+                active projects
+              </p>
+
+            </div>
+
+          </div>
+
+        </div>
+
       </div>
 
     </div>
