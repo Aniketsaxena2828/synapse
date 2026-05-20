@@ -190,7 +190,7 @@ export const removeMember =
       }
 
       if (
-        workspace.owner.toString()
+        workspace.owner?.toString()
         !== req.userId
       ) {
 
@@ -248,7 +248,7 @@ export const addRule =
       }
 
       if (
-        workspace.owner.toString()
+        workspace.owner?.toString()
         !== req.userId
       ) {
 
@@ -304,7 +304,7 @@ export const deleteWorkspace =
       }
 
       if (
-        workspace.owner.toString()
+        workspace.owner?.toString()
         !== req.userId
       ) {
 
