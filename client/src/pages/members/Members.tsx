@@ -451,7 +451,7 @@ export default function Members() {
 
                   
 
-                  {workspace.owner === user?._id ? (
+                  {workspace.owner === (user as any)?._id ? (
 
                     <button
                       onClick={() =>
@@ -533,26 +533,26 @@ export default function Members() {
 
                         {member.name}
 
-                        {workspace.owner === user?._id
-                        && member._id !== user?._id && (
+                        {workspace.owner === (user as any)?._id
+&& (member as any)._id !== (user as any)?._id && (
 
-                          <button
-                            onClick={() =>
-                              handleRemoveMember(
-                                workspace._id,
-                                member._id
-                              )
-                            }
+  <button
+    onClick={() =>
+      handleRemoveMember(
+        workspace._id,
+        (member as any)._id
+      )
+    }
 
-                            className="
-                              text-red-400
-                              font-bold
-                            "
-                          >
-                            ✕
-                          </button>
+    className="
+      text-red-400
+      font-bold
+    "
+  >
+    ✕
+  </button>
 
-                        )}
+)}
 
                       </div>
 
