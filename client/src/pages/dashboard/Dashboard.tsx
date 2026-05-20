@@ -18,6 +18,26 @@ import {
   useAuthStore,
 } from "@/store/authStore"
 
+interface Task {
+  id?: string
+  title: string
+  status?: string
+}
+
+interface BoardData {
+  todo: Task[]
+  progress: Task[]
+  completed: Task[]
+}
+
+interface DashboardData {
+  completedTasks: number
+  progressTasks: number
+  overdueTasks: number
+  totalTasks: number
+  recentTasks: Task[]
+}
+
 export default function Dashboard() {
 
   const token =
@@ -26,18 +46,18 @@ export default function Dashboard() {
     )
 
   const [data, setData] =
-    useState<any>(null)
+    useState<DashboardData | null>(null)
 
   const [projectCount,
     setProjectCount] =
-    useState(0)
+    useState<number>(0)
 
   const fetchDashboard =
     async () => {
 
       try {
 
-        const allBoards = {
+        const allBoards: BoardData = {
 
           todo: [],
 
@@ -91,17 +111,17 @@ export default function Dashboard() {
           }
         })
 
-        const recentTasks = [
+        const recentTasks: Task[] = [
 
           ...allBoards.todo.map(
-            (task: any) => ({
+            (task: Task) => ({
               ...task,
               status: "todo",
             })
           ),
 
           ...allBoards.progress.map(
-            (task: any) => ({
+            (task: Task) => ({
               ...task,
               status: "progress",
             })
@@ -311,10 +331,10 @@ export default function Dashboard() {
           ">
 
             {data.recentTasks.map(
-              (task: any) => (
+              (task: Task) => (
 
                 <div
-                  key={task.id}
+                  key={task.id || task.title}
 
                   className="
                     border
