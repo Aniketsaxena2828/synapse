@@ -345,73 +345,151 @@ export default function Analytics() {
             </div>
 
             <div className="
-              flex
-              gap-8
-              mt-10
-            ">
+  flex
+  gap-8
+  mt-10
+">
 
-              <div className="
-                flex
-                items-center
-                gap-3
-              ">
+  <div className="
+    flex
+    items-center
+    gap-3
+  ">
 
-                <div className="
-                  w-4
-                  h-4
-                  bg-red-500
-                " />
+    <div className="
+      w-4
+      h-4
+      bg-red-500
+    " />
 
-                <span>
-                  Todo
-                </span>
+    <span>
+      Todo
+    </span>
 
-              </div>
+  </div>
 
-              <div className="
-                flex
-                items-center
-                gap-3
-              ">
+  <div className="
+    flex
+    items-center
+    gap-3
+  ">
 
-                <div className="
-                  w-4
-                  h-4
-                  bg-yellow-400
-                " />
+    <div className="
+      w-4
+      h-4
+      bg-yellow-400
+    " />
 
-                <span>
-                  In Progress
-                </span>
+    <span>
+      In Progress
+    </span>
 
-              </div>
+  </div>
 
-              <div className="
-                flex
-                items-center
-                gap-3
-              ">
+  <div className="
+    flex
+    items-center
+    gap-3
+  ">
 
-                <div className="
-                  w-4
-                  h-4
-                  bg-pink-500
-                " />
+    <div className="
+      w-4
+      h-4
+      bg-pink-500
+    " />
 
-                <span>
-                  Completed
-                </span>
+    <span>
+      Completed
+    </span>
 
-              </div>
+  </div>
 
-            </div>
+</div>
 
-          </div>
+<div className="
+  mt-10
+  border
+  border-cyan-400/10
+  p-6
+  rounded-xl
+  w-full
+">
 
-        </div>
+  <h3 className="
+    text-2xl
+    font-black
+    mb-5
+  ">
+    Workspace Insights
+  </h3>
 
-      </div>
+  <div className="
+    flex
+    flex-col
+    gap-5
+    text-slate-300
+    leading-relaxed
+  ">
 
-    </PageLayout>
-  )
+    <p>
+      🔴
+      {" "}
+      <span className="
+        text-red-400
+        font-bold
+      ">
+        {todoPercent}%
+      </span>
+      {" "}
+      of total tasks are currently
+      pending in the Todo stage.
+    </p>
+
+    <p>
+      🟡
+      {" "}
+      <span className="
+        text-yellow-300
+        font-bold
+      ">
+        {progressPercent}%
+      </span>
+      {" "}
+      of tasks are actively being
+      developed in the workflow.
+    </p>
+
+    <p>
+      🌸
+      {" "}
+      <span className="
+        text-pink-400
+        font-bold
+      ">
+        {completedPercent}%
+      </span>
+      {" "}
+      of all tasks have been
+      successfully completed.
+    </p>
+
+    <p>
+      The realtime analytics engine
+      continuously monitors Kanban
+      activity and dynamically updates
+      task distribution insights.
+    </p>
+
+  </div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</PageLayout>
+)
 }

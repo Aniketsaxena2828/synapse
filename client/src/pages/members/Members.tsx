@@ -1,118 +1,616 @@
+import {
+  useEffect,
+  useState,
+} from "react"
+
 import PageLayout
 from "@/components/layout/PageLayout"
 
-const members = [
+import {
+  useAuthStore,
+} from "@/store/authStore"
 
-  {
-    name: "Alex Carter",
-    role: "Frontend Engineer",
-    online: true,
-  },
-
-  {
-    name: "Sarah Kim",
-    role: "UI Designer",
-    online: true,
-  },
-
-  {
-    name: "Mike Ross",
-    role: "Backend Developer",
-    online: false,
-  },
-]
+import {
+  createWorkspace,
+  getWorkspaces,
+  joinWorkspace,
+  deleteWorkspace,
+  removeMember,
+  leaveWorkspace,
+} from "@/services/workspaceService"
 
 export default function Members() {
+
+  const token =
+    useAuthStore(
+      (state) => state.token
+    )
+
+  const user =
+    useAuthStore(
+      (state) => state.user
+    )
+
+  const [myWorkspaces,
+    setMyWorkspaces] =
+    useState<any[]>([])
+
+  const [publicWorkspaces,
+    setPublicWorkspaces] =
+    useState<any[]>([])
+
+  const [workspaceName,
+    setWorkspaceName] =
+    useState("")
+
+  const [joinCode,
+    setJoinCode] =
+    useState("")
+
+  const [isPrivate,
+    setIsPrivate] =
+    useState(false)
+
+  const fetchWorkspaces =
+    async () => {
+
+      try {
+
+        const data =
+          await getWorkspaces(
+            token!
+          )
+
+        setMyWorkspaces(
+          data.myWorkspaces
+        )
+
+        setPublicWorkspaces(
+          data.publicWorkspaces
+        )
+
+      } catch (error) {
+
+        console.log(error)
+      }
+    }
+
+  useEffect(() => {
+
+    if (token) {
+
+      fetchWorkspaces()
+    }
+
+  }, [token])
+
+  const handleCreateWorkspace =
+    async () => {
+
+      if (
+        !workspaceName.trim()
+      ) return
+
+      try {
+
+        await createWorkspace(
+          {
+            name:
+              workspaceName,
+
+            isPrivate,
+          },
+
+          token!
+        )
+
+        setWorkspaceName("")
+
+        fetchWorkspaces()
+
+      } catch (error) {
+
+        console.log(error)
+      }
+    }
+
+  const handleJoinWorkspace =
+    async () => {
+
+      if (!joinCode.trim())
+        return
+
+      try {
+
+        await joinWorkspace(
+          joinCode,
+          token!
+        )
+
+        setJoinCode("")
+
+        fetchWorkspaces()
+
+      } catch (error) {
+
+        console.log(error)
+      }
+    }
+
+  const handleDeleteWorkspace =
+    async (id: string) => {
+
+      try {
+
+        await deleteWorkspace(
+          id,
+          token!
+        )
+
+        fetchWorkspaces()
+
+      } catch (error) {
+
+        console.log(error)
+      }
+    }
+
+  const handleRemoveMember =
+    async (
+      workspaceId: string,
+      memberId: string
+    ) => {
+
+      try {
+
+        await removeMember(
+          workspaceId,
+          memberId,
+          token!
+        )
+
+        fetchWorkspaces()
+
+      } catch (error) {
+
+        console.log(error)
+      }
+    }
+
+  const handleLeaveWorkspace =
+    async (workspaceId: string) => {
+
+      try {
+
+        await leaveWorkspace(
+          workspaceId,
+          token!
+        )
+
+        fetchWorkspaces()
+
+      } catch (error) {
+
+        console.log(error)
+      }
+    }
 
   return (
 
     <PageLayout
 
-      tag="TEAM"
+      tag="MEMBERS"
 
       title="Workspace Members"
 
       description="
-        Manage collaborators,
-        monitor activity,
-        and coordinate teams.
+        Manage collaboration,
+        connect teams,
+        and join shared workspaces.
       "
     >
 
       <div className="
         grid
-        md:grid-cols-3
+        grid-cols-1
+        xl:grid-cols-2
         gap-6
+        mb-10
       ">
 
-        {members.map((member) => (
+        <div className="
+          cyber-card
+          p-7
+        ">
 
-          <div
-            key={member.name}
+          <h2 className="
+            text-3xl
+            font-black
+            mb-6
+          ">
+            Create Workspace
+          </h2>
 
-            className="
-              cyber-card
-              p-7
-            "
-          >
+          <div className="
+            flex
+            flex-col
+            gap-4
+          ">
 
-            <div className="
-              flex items-center
-              justify-between
-              mb-6
+            <input
+              type="text"
+              placeholder="Workspace name"
+
+              value={workspaceName}
+
+              onChange={(e) =>
+                setWorkspaceName(
+                  e.target.value
+                )
+              }
+
+              className="
+                bg-[#020817]
+                border
+                border-cyan-400/20
+                p-4
+                outline-none
+              "
+            />
+
+            <label className="
+              flex
+              items-center
+              gap-3
+              text-slate-300
             ">
 
-              <div className="
-                w-14 h-14
+              <input
+                type="checkbox"
 
-                bg-cyan-400/10
-
-                flex items-center
-                justify-center
-
-                text-cyan-400
-
-                font-black
-                text-xl
-              ">
-
-                {
-                  member.name.charAt(0)
+                checked={
+                  isPrivate
                 }
 
-              </div>
-
-              <div
-                className={`
-                  w-3 h-3
-
-                  ${
-                    member.online
-                      ? "bg-green-400"
-                      : "bg-red-400"
-                  }
-                `}
+                onChange={(e) =>
+                  setIsPrivate(
+                    e.target.checked
+                  )
+                }
               />
 
-            </div>
+              Private Workspace
 
-            <h2 className="
-              text-2xl
-              font-bold
-              mb-2
-            ">
-              {member.name}
-            </h2>
+            </label>
 
-            <p className="
-              text-slate-400
-            ">
-              {member.role}
-            </p>
+            <button
+              onClick={
+                handleCreateWorkspace
+              }
+
+              className="
+                bg-cyan-400
+                text-black
+                font-bold
+                py-4
+              "
+            >
+              Create Workspace
+            </button>
 
           </div>
 
-        ))}
+        </div>
+
+        <div className="
+          cyber-card
+          p-7
+        ">
+
+          <h2 className="
+            text-3xl
+            font-black
+            mb-6
+          ">
+            Join Workspace
+          </h2>
+
+          <div className="
+            flex
+            flex-col
+            gap-4
+          ">
+
+            <input
+              type="text"
+
+              placeholder="Invite code"
+
+              value={joinCode}
+
+              onChange={(e) =>
+                setJoinCode(
+                  e.target.value
+                )
+              }
+
+              className="
+                bg-[#020817]
+                border
+                border-cyan-400/20
+                p-4
+                outline-none
+              "
+            />
+
+            <button
+              onClick={
+                handleJoinWorkspace
+              }
+
+              className="
+                bg-purple-500
+                text-white
+                font-bold
+                py-4
+              "
+            >
+              Join Workspace
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <div className="
+        cyber-card
+        p-7
+        mb-10
+      ">
+
+        <h2 className="
+          text-3xl
+          font-black
+          mb-8
+        ">
+          My Workspaces
+        </h2>
+
+        <div className="
+          grid
+          md:grid-cols-2
+          gap-6
+        ">
+
+          {myWorkspaces.map(
+            (workspace) => (
+
+              <div
+                key={workspace._id}
+
+                className="
+                  border
+                  border-cyan-400/10
+                  p-6
+                "
+              >
+
+                <h3 className="
+                  text-2xl
+                  font-bold
+                  mb-4
+                ">
+                  {workspace.name}
+                </h3>
+
+                <p className="
+                  text-slate-400
+                  mb-3
+                ">
+                  Invite Code:
+                  {" "}
+                  <span className="
+                    text-cyan-400
+                    font-bold
+                  ">
+                    {
+                      workspace.inviteCode
+                    }
+                  </span>
+                </p>
+
+                {workspace.owner === user?._id ? (
+
+                  <button
+                    onClick={() =>
+                      handleDeleteWorkspace(
+                        workspace._id
+                      )
+                    }
+
+                    className="
+                      bg-red-500
+                      text-white
+                      px-4
+                      py-2
+                      mt-4
+                      mb-5
+                    "
+                  >
+                    Delete Workspace
+                  </button>
+
+                ) : (
+
+                  <button
+                    onClick={() =>
+                      handleLeaveWorkspace(
+                        workspace._id
+                      )
+                    }
+
+                    className="
+                      bg-yellow-500
+                      text-black
+                      px-4
+                      py-2
+                      mt-4
+                      mb-5
+                    "
+                  >
+                    Leave Workspace
+                  </button>
+
+                )}
+
+                <p className="
+                  text-slate-400
+                  mb-5
+                ">
+                  Members:
+                  {" "}
+                  {
+                    workspace.members
+                      .length
+                  }
+                </p>
+
+                <div className="
+                  flex
+                  flex-wrap
+                  gap-3
+                ">
+
+                  {workspace.members.map(
+                    (member: any) => (
+
+                      <div
+                        key={member._id}
+
+                        className="
+                          bg-cyan-400/10
+                          border
+                          border-cyan-400/20
+                          px-4
+                          py-2
+                          text-sm
+
+                          flex
+                          items-center
+                          gap-3
+                        "
+                      >
+
+                        {member.name}
+
+                        {workspace.owner === user?._id
+                        && member._id !== user?._id && (
+
+                          <button
+                            onClick={() =>
+                              handleRemoveMember(
+                                workspace._id,
+                                member._id
+                              )
+                            }
+
+                            className="
+                              text-red-400
+                              font-bold
+                            "
+                          >
+                            ✕
+                          </button>
+
+                        )}
+
+                      </div>
+
+                    )
+                  )}
+
+                </div>
+
+              </div>
+
+            )
+          )}
+
+        </div>
+
+      </div>
+
+      <div className="
+        cyber-card
+        p-7
+      ">
+
+        <h2 className="
+          text-3xl
+          font-black
+          mb-8
+        ">
+          Public Workspaces
+        </h2>
+
+        <div className="
+          grid
+          md:grid-cols-2
+          gap-6
+        ">
+
+          {publicWorkspaces.map(
+            (workspace) => (
+
+              <div
+                key={workspace._id}
+
+                className="
+                  border
+                  border-cyan-400/10
+                  p-6
+                "
+              >
+
+                <h3 className="
+                  text-2xl
+                  font-bold
+                  mb-4
+                ">
+                  {workspace.name}
+                </h3>
+
+                <p className="
+                  text-slate-400
+                  mb-4
+                ">
+                  Members:
+                  {" "}
+                  {
+                    workspace.members
+                      .length
+                  }
+                </p>
+
+                <p className="
+                  text-cyan-400
+                  font-bold
+                ">
+                  Code:
+                  {" "}
+                  {
+                    workspace.inviteCode
+                  }
+                </p>
+
+              </div>
+
+            )
+          )}
+
+        </div>
 
       </div>
 
