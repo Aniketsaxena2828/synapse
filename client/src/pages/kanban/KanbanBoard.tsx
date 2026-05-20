@@ -48,6 +48,11 @@ export default function KanbanBoard() {
     if (!workspaceId)
       return
 
+    localStorage.setItem(
+      "current-workspace",
+      workspaceId
+    )
+
     const saved =
       localStorage.getItem(
         `kanban-${workspaceId}`
@@ -493,147 +498,3 @@ function Column({
         </div>
 
       </div>
-
-      <SortableContext
-
-        items={
-          tasks.map(
-            (task: any) =>
-              task.id
-          )
-        }
-
-        strategy={
-          verticalListSortingStrategy
-        }
-      >
-
-        <div className="
-          space-y-5
-          min-h-[500px]
-        ">
-
-          {tasks.map((task: any) => (
-
-            <TaskCard
-              key={task.id}
-              task={task}
-              columnId={id}
-              deleteTask={deleteTask}
-            />
-
-          ))}
-
-        </div>
-
-      </SortableContext>
-
-    </div>
-  )
-}
-
-function TaskCard({
-  task,
-  columnId,
-  deleteTask,
-}: any) {
-
-  const {
-    attributes,
-    listeners,
-    setNodeRef,
-    transform,
-    transition,
-  } = useSortable({
-    id: task.id,
-  })
-
-  const style = {
-
-    transform:
-      CSS.Transform.toString(
-        transform
-      ),
-
-    transition,
-  }
-
-  return (
-
-    <div
-
-      ref={setNodeRef}
-
-      style={style}
-
-      className="
-        bg-white/5
-        border
-        border-cyan-400/10
-        rounded-2xl
-        p-6
-        backdrop-blur-md
-        hover:border-cyan-400/30
-        transition-all
-        duration-300
-      "
-    >
-
-      <div
-
-        {...attributes}
-        {...listeners}
-
-        className="
-          cursor-grab
-          active:cursor-grabbing
-        "
-      >
-
-        <p className="
-          text-cyan-400
-          text-sm
-          mb-3
-          tracking-wide
-        ">
-          TASK
-        </p>
-
-        <h3 className="
-          font-bold
-          text-3xl
-          mb-5
-        ">
-          {task.title}
-        </h3>
-
-      </div>
-
-      <button
-
-        onClick={() =>
-          deleteTask(
-            columnId,
-            task.id
-          )
-        }
-
-        className="
-          mt-2
-          px-4
-          py-2
-          rounded-xl
-          bg-rose-500/15
-          text-rose-400
-          border
-          border-rose-400/20
-          hover:bg-rose-500/25
-          transition-all
-        "
-      >
-        Delete
-      </button>
-
-    </div>
-  )
-}
