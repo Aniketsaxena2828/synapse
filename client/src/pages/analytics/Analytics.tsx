@@ -291,58 +291,201 @@ export default function Analytics() {
           ">
 
             <div className="
-              relative
-              w-[260px]
-              h-[260px]
-              rounded-full
-            ">
+  relative
+  w-[420px]
+  h-[420px]
 
-              <div
-                className="
-                  absolute
-                  inset-0
-                  rounded-full
-                "
-                style={{
-                  background:
-                    `conic-gradient(
-                      #ef4444 0% ${todoPercent}%,
-                      #facc15 ${todoPercent}% ${todoPercent + progressPercent}%,
-                      #ec4899 ${todoPercent + progressPercent}% 100%
-                    )`,
-                }}
-              />
+  flex
+  items-center
+  justify-center
+">
 
-              <div className="
-                absolute
-                inset-[45px]
-                bg-[#020817]
-                rounded-full
+  <div
+    className="
+      absolute
+      inset-0
+      rounded-full
 
-                flex
-                items-center
-                justify-center
-                flex-col
-              ">
+      shadow-[0_10px_40px_rgba(0,0,0,0.08)]
+    "
+    style={{
+      background: `conic-gradient(
 
-                <h2 className="
-                  text-5xl
-                  font-black
-                ">
-                  {completedPercent}%
-                </h2>
+        #38bdf8 0deg
+        ${todoPercent * 3.6}deg,
 
-                <p className="
-                  text-slate-400
-                  text-sm
-                  mt-2
-                ">
-                  Completed
-                </p>
+        #818cf8
+        ${todoPercent * 3.6}deg
+        ${(todoPercent + progressPercent) * 3.6}deg,
 
-              </div>
+        #22c55e
+        ${(todoPercent + progressPercent) * 3.6}deg
+        360deg
+      )`,
+    }}
+  />
 
-            </div>
+  <div className="
+    absolute
+    w-[230px]
+    h-[230px]
+
+    rounded-full
+
+    bg-white
+
+    flex
+    flex-col
+    items-center
+    justify-center
+
+    shadow-inner
+    border
+    border-slate-200
+  ">
+
+    <h2 className="
+      text-7xl
+      font-black
+      text-slate-900
+    ">
+      {completedPercent}%
+    </h2>
+
+    <p className="
+      text-slate-500
+      text-xl
+      mt-2
+    ">
+      Completed
+    </p>
+
+  </div>
+
+  <div className="
+    absolute
+    top-[10%]
+    right-[-140px]
+
+    flex
+    flex-col
+    gap-2
+  ">
+
+    <div className="
+      flex
+      items-center
+      gap-3
+    ">
+
+      <div className="
+        w-4
+        h-4
+        rounded-full
+        bg-sky-400
+      " />
+
+      <span className="
+        font-semibold
+      ">
+        Todo
+      </span>
+
+    </div>
+
+    <p className="
+      text-slate-500
+      text-sm
+    ">
+      {todo} tasks
+    </p>
+
+  </div>
+
+  <div className="
+    absolute
+    bottom-[18%]
+    right-[-150px]
+
+    flex
+    flex-col
+    gap-2
+  ">
+
+    <div className="
+      flex
+      items-center
+      gap-3
+    ">
+
+      <div className="
+        w-4
+        h-4
+        rounded-full
+        bg-indigo-400
+      " />
+
+      <span className="
+        font-semibold
+      ">
+        In Progress
+      </span>
+
+    </div>
+
+    <p className="
+      text-slate-500
+      text-sm
+    ">
+      {progress} tasks
+    </p>
+
+  </div>
+
+  <div className="
+    absolute
+    left-[-130px]
+    top-[35%]
+
+    flex
+    flex-col
+    gap-2
+    items-end
+  ">
+
+    <div className="
+      flex
+      items-center
+      gap-3
+    ">
+
+      <div className="
+        w-4
+        h-4
+        rounded-full
+        bg-green-500
+      " />
+
+      <span className="
+        font-semibold
+      ">
+        Completed
+      </span>
+
+    </div>
+
+    <p className="
+      text-slate-500
+      text-sm
+    ">
+      {completed} tasks
+    </p>
+
+  </div>
+
+</div>
+
+</div>
 
             <div className="
   flex
@@ -481,8 +624,6 @@ export default function Analytics() {
     </p>
 
   </div>
-
-</div>
 
 </div>
 
