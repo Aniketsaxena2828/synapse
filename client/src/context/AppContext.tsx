@@ -21,16 +21,13 @@ export function AppProvider({
 }: any) {
 
   const [boards, setBoards] =
-    useState<any>(null)
+    useState<any>(defaultBoards)
 
   return (
 
     <AppContext.Provider
       value={{
-        boards:
-          boards ||
-          defaultBoards,
-
+        boards,
         setBoards,
       }}
     >
