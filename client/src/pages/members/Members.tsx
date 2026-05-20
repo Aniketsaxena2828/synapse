@@ -211,7 +211,6 @@ export default function Members() {
 
       workspace._id
     )
-
     navigate(
       `/kanban/${workspace._id}`
     )
@@ -450,23 +449,7 @@ export default function Members() {
                   mb-5
                 ">
 
-                  <button
-                    onClick={() =>
-                      openWorkspace(
-                        workspace
-                      )
-                    }
-
-                    className="
-                      bg-cyan-400
-                      text-black
-                      px-4
-                      py-2
-                      font-bold
-                    "
-                  >
-                    Open Kanban
-                  </button>
+                  
 
                   {workspace.owner === user?._id ? (
 

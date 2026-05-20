@@ -1,11 +1,8 @@
-import { Response }
-from "express"
+import { Response } from "express"
 
-import Task
-from "../models/task.model"
+import Task from "../models/task.model"
 
-import Project
-from "../models/project.model"
+import Project from "../models/project.model"
 
 import {
   AuthRequest,
@@ -19,46 +16,50 @@ async (
 
   try {
 
-    const userId = req.userId
+    const tasks =
+  await Task.find({
+    workspaceId: {
+      $exists: true,
+    },
+  }).sort({
+    createdAt: -1,
+  })
 
     const totalTasks =
-      await Task.countDocuments({
-        owner: userId,
-      })
+      tasks.length
 
     const completedTasks =
-      await Task.countDocuments({
-        owner: userId,
-        status: "done",
-      })
+      tasks.filter(
+        (task: any) =>
+          task.status ===
+          "completed"
+      ).length
 
     const progressTasks =
-      await Task.countDocuments({
-        owner: userId,
-        status: "progress",
-      })
+      tasks.filter(
+        (task: any) =>
+          task.status ===
+          "progress"
+      ).length
 
     const overdueTasks =
-      await Task.countDocuments({
-        owner: userId,
-        status: "todo",
-      })
+      tasks.filter(
+        (task: any) =>
+          task.status ===
+          "todo"
+      ).length
 
     const totalProjects =
-      await Project.countDocuments({
-        owner: userId,
-      })
+      await Project.countDocuments({})
 
     const recentTasks =
-      await Task.find({
-        owner: userId,
-      })
-
-      .sort({
-        createdAt: -1,
-      })
-
-      .limit(4)
+      tasks
+        .filter(
+          (task: any) =>
+            task.status !==
+            "completed"
+        )
+        .slice(0, 6)
 
     res.status(200).json({
 
@@ -80,7 +81,8 @@ async (
     console.log(error)
 
     res.status(500).json({
-      message: "Server Error",
+      message:
+        "Server Error",
     })
   }
 }

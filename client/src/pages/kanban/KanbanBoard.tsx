@@ -23,6 +23,10 @@ import {
 } from "react"
 
 import {
+  useParams,
+} from "react-router-dom"
+
+import {
   useApp,
 } from "../../context/AppContext"
 
@@ -33,19 +37,86 @@ export default function KanbanBoard() {
     setBoards,
   } = useApp()
 
+  const { workspaceId } =
+    useParams()
+
   const [taskText, setTaskText] =
     useState("")
 
   useEffect(() => {
 
+    if (
+      !workspaceId ||
+      workspaceId ===
+        "undefined"
+    ) {
+      return
+    }
+
+    const saved =
+      localStorage.getItem(
+        `kanban-${workspaceId}`
+      )
+
+    if (saved) {
+
+      try {
+
+        const parsed =
+          JSON.parse(saved)
+
+        setBoards({
+
+          todo:
+            parsed.todo || [],
+
+          progress:
+            parsed.progress || [],
+
+          completed:
+            parsed.completed || [],
+        })
+
+      } catch (error) {
+
+        console.log(error)
+      }
+    }
+
+  }, [workspaceId])
+
+  useEffect(() => {
+
+  if (
+    !workspaceId ||
+    workspaceId ===
+      "undefined"
+  ) {
+    return
+  }
+
+  if (
+    !boards ||
+    (
+      boards.todo.length === 0 &&
+      boards.progress.length === 0 &&
+      boards.completed.length === 0
+    )
+  ) {
+    return
+  }
+
   localStorage.setItem(
 
-    window.location.pathname,
+    `kanban-${workspaceId}`,
 
     JSON.stringify(boards)
   )
 
-}, [boards])
+}, [
+  boards,
+  workspaceId,
+])
 
   const sensors =
     useSensors(
@@ -71,7 +142,7 @@ export default function KanbanBoard() {
       ...prev,
 
       todo: [
-        ...prev.todo,
+        ...(prev.todo || []),
         newTask,
       ],
 
@@ -113,7 +184,7 @@ export default function KanbanBoard() {
       const exists =
         boards[
           key as keyof typeof boards
-        ].find(
+        ]?.find(
           (item: any) =>
             item.id === id
         )
@@ -231,7 +302,6 @@ export default function KanbanBoard() {
 
     <div className="
       min-h-screen
-
       px-10
       py-12
     ">
@@ -240,11 +310,8 @@ export default function KanbanBoard() {
 
         <p className="
           text-cyan-400
-
           tracking-[8px]
-
           mb-3
-
           text-sm
           font-semibold
         ">
@@ -253,11 +320,8 @@ export default function KanbanBoard() {
 
         <h1 className="
           text-7xl
-
           font-black
-
           tracking-tight
-
           mb-5
         ">
           Mission Board
@@ -277,9 +341,7 @@ export default function KanbanBoard() {
       <div className="
         flex
         gap-5
-
         mb-10
-
         flex-wrap
       ">
 
@@ -296,14 +358,10 @@ export default function KanbanBoard() {
 
           className="
             cyber-input
-
             px-6
             py-4
-
             rounded-2xl
-
             w-[360px]
-
             text-lg
           "
         />
@@ -314,16 +372,11 @@ export default function KanbanBoard() {
 
           className="
             cyber-button
-
             px-8
             py-4
-
             rounded-2xl
-
             text-black
-
             font-bold
-
             text-lg
           "
         >
@@ -349,28 +402,27 @@ export default function KanbanBoard() {
           grid
           grid-cols-1
           lg:grid-cols-3
-
           gap-8
         ">
 
           <Column
             id="todo"
             title="TODO"
-            tasks={boards.todo}
+            tasks={boards.todo || []}
             deleteTask={deleteTask}
           />
 
           <Column
             id="progress"
             title="IN PROGRESS"
-            tasks={boards.progress}
+            tasks={boards.progress || []}
             deleteTask={deleteTask}
           />
 
           <Column
             id="completed"
             title="COMPLETED"
-            tasks={boards.completed}
+            tasks={boards.completed || []}
             deleteTask={deleteTask}
           />
 
@@ -402,15 +454,10 @@ function Column({
 
       className="
         cyber-card
-
         rounded-3xl
-
         p-7
-
         min-h-[650px]
-
         border
-
         backdrop-blur-xl
       "
     >
@@ -419,15 +466,12 @@ function Column({
         flex
         justify-between
         items-center
-
         mb-8
       ">
 
         <h2 className="
           text-4xl
-
           font-black
-
           tracking-tight
         ">
           {title}
@@ -435,17 +479,12 @@ function Column({
 
         <div className="
           bg-cyan-500/10
-
           border
           border-cyan-400/20
-
           text-cyan-300
-
           px-5
           py-3
-
           rounded-2xl
-
           text-lg
           font-bold
         ">
@@ -472,7 +511,6 @@ function Column({
 
         <div className="
           space-y-5
-
           min-h-[500px]
         ">
 
@@ -531,18 +569,12 @@ function TaskCard({
 
       className="
         bg-white/5
-
         border
         border-cyan-400/10
-
         rounded-2xl
-
         p-6
-
         backdrop-blur-md
-
         hover:border-cyan-400/30
-
         transition-all
         duration-300
       "
@@ -555,18 +587,14 @@ function TaskCard({
 
         className="
           cursor-grab
-
           active:cursor-grabbing
         "
       >
 
         <p className="
           text-cyan-400
-
           text-sm
-
           mb-3
-
           tracking-wide
         ">
           TASK
@@ -574,9 +602,7 @@ function TaskCard({
 
         <h3 className="
           font-bold
-
           text-3xl
-
           mb-5
         ">
           {task.title}
@@ -595,21 +621,14 @@ function TaskCard({
 
         className="
           mt-2
-
           px-4
           py-2
-
           rounded-xl
-
           bg-rose-500/15
-
           text-rose-400
-
           border
           border-rose-400/20
-
           hover:bg-rose-500/25
-
           transition-all
         "
       >

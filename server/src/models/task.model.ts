@@ -10,6 +10,7 @@ const taskSchema =
 
       status: {
         type: String,
+
         enum: [
           "todo",
           "progress",
@@ -36,7 +37,13 @@ const taskSchema =
 
         required: true,
       },
+
+      description: {
+        type: String,
+        default: "",
+      },
     },
+
     {
       timestamps: true,
     }

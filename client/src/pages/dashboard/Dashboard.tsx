@@ -38,22 +38,106 @@ export default function Dashboard() {
     useState(0)
 
   const fetchDashboard =
-    async () => {
+  async () => {
 
-      try {
+    try {
 
-        const res =
-          await getDashboardData(
-            token!
-          )
+      const allBoards = {
 
-        setData(res)
+        todo: [],
 
-      } catch (error) {
+        progress: [],
 
-        console.log(error)
+        completed: [],
       }
+
+      Object.keys(localStorage)
+
+  .filter(
+    (key) =>
+      key.startsWith(
+        "kanban-"
+      )
+  )
+
+        .forEach((key) => {
+
+          const saved =
+            localStorage.getItem(
+              key
+            )
+
+          if (!saved)
+            return
+
+          try {
+
+            const parsed =
+              JSON.parse(saved)
+
+            allBoards.todo.push(
+              ...(parsed.todo || [])
+            )
+
+            allBoards.progress.push(
+              ...(parsed.progress || [])
+            )
+
+            allBoards.completed.push(
+              ...(parsed.completed || [])
+            )
+
+          } catch (error) {
+
+            console.log(error)
+          }
+        })
+
+      const recentTasks = [
+
+        ...allBoards.todo.map(
+          (task: any) => ({
+            ...task,
+            status: "todo",
+          })
+        ),
+
+        ...allBoards.progress.map(
+          (task: any) => ({
+            ...task,
+            status: "progress",
+          })
+        ),
+      ]
+
+      setData({
+
+        completedTasks:
+          allBoards.completed.length,
+
+        progressTasks:
+          allBoards.progress.length,
+
+        overdueTasks:
+          allBoards.todo.length,
+
+        totalTasks:
+
+          allBoards.todo.length +
+
+          allBoards.progress.length +
+
+          allBoards.completed.length,
+
+        recentTasks:
+          recentTasks.slice(0, 6),
+      })
+
+    } catch (error) {
+
+      console.log(error)
     }
+  }
 
   const fetchProjects =
     async () => {

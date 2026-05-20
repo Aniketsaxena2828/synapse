@@ -12,7 +12,14 @@ interface Task {
 }
 
 interface Props {
+
+  task: any
+
   projectId: string
+
+  onClose: () => void
+
+  refresh: () => Promise<void>
 }
 
 const columns = [

@@ -17,49 +17,6 @@ import {
   useAuthStore,
 } from "@/store/authStore"
 
-const menuItems = [
-
-  {
-    title: "Dashboard",
-    icon: LayoutDashboard,
-    path: "/",
-  },
-
-  {
-    title: "Kanban",
-    icon: KanbanSquare,
-    path: `/kanban/${
-  localStorage.getItem(
-    "current-workspace"
-  ) || "default"
-}`,
-  },
-
-  {
-    title: "Projects",
-    icon: FolderKanban,
-    path: "/projects",
-  },
-
-  {
-    title: "Analytics",
-    icon: BarChart3,
-    path: "/analytics",
-  },
-
-  {
-    title: "Members",
-    icon: Users,
-    path: "/members",
-  },
-
-  {
-    title: "Settings",
-    icon: Settings,
-    path: "/settings",
-  },
-]
-
 export default function Sidebar() {
 
   const {
@@ -67,10 +24,55 @@ export default function Sidebar() {
     toggleSidebar,
   } = useAuthStore()
 
+  const currentWorkspace =
+    localStorage.getItem(
+      "current-workspace"
+    ) || "default"
+
+  const menuItems = [
+
+    {
+      title: "Dashboard",
+      icon: LayoutDashboard,
+      path: "/",
+    },
+
+    {
+      title: "Kanban",
+      icon: KanbanSquare,
+      path: `/kanban/${currentWorkspace}`,
+    },
+
+    {
+      title: "Projects",
+      icon: FolderKanban,
+      path: "/projects",
+    },
+
+    {
+      title: "Analytics",
+      icon: BarChart3,
+      path: "/analytics",
+    },
+
+    {
+      title: "Members",
+      icon: Users,
+      path: "/members",
+    },
+
+    {
+      title: "Settings",
+      icon: Settings,
+      path: "/settings",
+    },
+  ]
+
   return (
 
     <aside
       className={`
+
         ${
           sidebarCollapsed
             ? "w-[90px]"
@@ -161,7 +163,9 @@ export default function Sidebar() {
               to={item.path}
 
               className={({
+
                 isActive,
+
               }) => `
 
                 flex
