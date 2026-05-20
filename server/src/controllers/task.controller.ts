@@ -1,156 +1,142 @@
-import { Response } from "express"
+import { Response }
+from "express"
 
-import Task from "../models/task.model"
+import Task
+from "../models/task.model"
 
 import {
   AuthRequest,
 } from "../middleware/auth.middleware"
 
-import { getIO }
-from "../config/socket"
+export const getTasks =
+  async (
+    req: AuthRequest,
+    res: Response
+  ) => {
 
-export const createTask = async (
-  req: AuthRequest,
-  res: Response
-) => {
+    try {
 
-  try {
+      const tasks =
+        await Task.find({
 
-    console.log("BODY:", req.body)
+          workspaceId:
+            req.params.workspaceId,
 
-    if (!req.body) {
-      return res.status(400).json({
-        message: "Body missing",
-      })
-    }
+        })
 
-    const {
-      title,
-      description,
-      projectId,
-    } = req.body
-
-    if (!title) {
-      return res.status(400).json({
-        message: "Title required",
-      })
-    }
-
-    const task = await Task.create({
-      title,
-      description,
-      project: projectId,
-      owner: req.userId,
-    })
-
-    getIO().emit(
-      "taskCreated",
-      task
-    )
-
-    res.status(201).json(task)
-
-  } catch (error) {
-
-    console.log(error)
-
-    res.status(500).json({
-      message: "Server Error",
-    })
-  }
-}
-
-export const getTasks = async (
-  req: AuthRequest,
-  res: Response
-) => {
-
-  try {
-
-    const tasks =
-      await Task.find({
-        owner: req.userId,
-      })
-
-    res.status(200).json(tasks)
-
-  } catch (error) {
-
-    console.log(error)
-
-    res.status(500).json({
-      message: "Server Error",
-    })
-  }
-}
-
-export const updateTaskStatus = async (
-  req: AuthRequest,
-  res: Response
-) => {
-
-  try {
-
-    const { taskId } = req.params
-
-    const { status } = req.body
-
-    const updatedTask =
-      await Task.findByIdAndUpdate(
-        taskId,
-        {
-          status,
-        },
-        {
-          new: true,
-        }
+      res.status(200).json(
+        tasks
       )
 
-    getIO().emit(
-      "taskUpdated",
-      updatedTask
-    )
+    } catch (error) {
 
-    res.status(200).json(updatedTask)
+      console.log(error)
 
-  } catch (error) {
-
-    console.log(error)
-
-    res.status(500).json({
-      message: "Server Error",
-    })
+      res.status(500).json({
+        message:
+          "Server Error",
+      })
+    }
   }
-}
-export const deleteTask = async (
-  req: AuthRequest,
-  res: Response
-) => {
 
-  try {
+export const createTask =
+  async (
+    req: AuthRequest,
+    res: Response
+  ) => {
 
-    const { taskId } = req.params
+    try {
 
-    await Task.findByIdAndDelete(
-      taskId
-    )
+      const task =
+        await Task.create({
 
-    getIO().emit(
-      "taskDeleted",
-      taskId
-    )
+          title:
+            req.body.title,
 
-    res.status(200).json({
-      message: "Task deleted",
-    })
+          status:
+            "todo",
 
-  } catch (error) {
+          workspaceId:
+            req.body.workspaceId,
 
-    console.log(error)
+          createdBy:
+            req.userId,
+        })
 
-    res.status(500).json({
-      message: "Server Error",
-    })
+      res.status(201).json(
+        task
+      )
+
+    } catch (error) {
+
+      console.log(error)
+
+      res.status(500).json({
+        message:
+          "Server Error",
+      })
+    }
   }
-}
 
+export const updateTask =
+  async (
+    req: AuthRequest,
+    res: Response
+  ) => {
+
+    try {
+
+      const task =
+        await Task.findByIdAndUpdate(
+
+          req.params.id,
+
+          req.body,
+
+          {
+            new: true,
+          }
+        )
+
+      res.status(200).json(
+        task
+      )
+
+    } catch (error) {
+
+      console.log(error)
+
+      res.status(500).json({
+        message:
+          "Server Error",
+      })
+    }
+  }
+
+export const deleteTask =
+  async (
+    req: AuthRequest,
+    res: Response
+  ) => {
+
+    try {
+
+      await Task.findByIdAndDelete(
+        req.params.id
+      )
+
+      res.status(200).json({
+        message:
+          "Task deleted",
+      })
+
+    } catch (error) {
+
+      console.log(error)
+
+      res.status(500).json({
+        message:
+          "Server Error",
+      })
+    }
+  }

@@ -1,16 +1,24 @@
-import express from "express"
-
-import {
-  createTask,
-  getTasks,
-  updateTaskStatus,
-  deleteTask,
-} from "../controllers/task.controller"
+import express
+from "express"
 
 import authMiddleware
 from "../middleware/auth.middleware"
 
-const router = express.Router()
+import {
+  getTasks,
+  createTask,
+  updateTask,
+  deleteTask,
+} from "../controllers/task.controller"
+
+const router =
+  express.Router()
+
+router.get(
+  "/:workspaceId",
+  authMiddleware,
+  getTasks
+)
 
 router.post(
   "/",
@@ -18,20 +26,14 @@ router.post(
   createTask
 )
 
-router.get(
-  "/",
+router.put(
+  "/:id",
   authMiddleware,
-  getTasks
-)
-
-router.patch(
-  "/:taskId/status",
-  authMiddleware,
-  updateTaskStatus
+  updateTask
 )
 
 router.delete(
-  "/:taskId",
+  "/:id",
   authMiddleware,
   deleteTask
 )

@@ -67,9 +67,14 @@ export default function App() {
         />
 
         <Route
-          path="kanban"
-          element={<KanbanBoard />}
-        />
+  path="/kanban"
+  element={<KanbanBoard />}
+/>
+
+<Route
+  path="/kanban/:workspaceId"
+  element={<KanbanBoard />}
+/>
 
         <Route
           path="projects"

@@ -28,7 +28,11 @@ const menuItems = [
   {
     title: "Kanban",
     icon: KanbanSquare,
-    path: "/kanban",
+    path: `/kanban/${
+  localStorage.getItem(
+    "current-workspace"
+  ) || "default"
+}`,
   },
 
   {

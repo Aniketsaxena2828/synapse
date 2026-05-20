@@ -5,7 +5,7 @@ import jwt from "jsonwebtoken"
 export interface AuthRequest extends Request {
   userId?: string
 }
-
+export const verifyToken
 const authMiddleware = (
   req: AuthRequest,
   res: Response,

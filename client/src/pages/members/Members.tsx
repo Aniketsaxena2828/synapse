@@ -3,6 +3,10 @@ import {
   useState,
 } from "react"
 
+import {
+  useNavigate,
+} from "react-router-dom"
+
 import PageLayout
 from "@/components/layout/PageLayout"
 
@@ -20,6 +24,9 @@ import {
 } from "@/services/workspaceService"
 
 export default function Members() {
+
+  const navigate =
+    useNavigate()
 
   const token =
     useAuthStore(
@@ -194,6 +201,21 @@ export default function Members() {
         console.log(error)
       }
     }
+
+  const openWorkspace =
+  (workspace: any) => {
+
+    localStorage.setItem(
+
+      "current-workspace",
+
+      workspace._id
+    )
+
+    navigate(
+      `/kanban/${workspace._id}`
+    )
+  }
 
   return (
 
@@ -421,49 +443,72 @@ export default function Members() {
                   </span>
                 </p>
 
-                {workspace.owner === user?._id ? (
+                <div className="
+                  flex
+                  gap-3
+                  flex-wrap
+                  mb-5
+                ">
 
                   <button
                     onClick={() =>
-                      handleDeleteWorkspace(
-                        workspace._id
+                      openWorkspace(
+                        workspace
                       )
                     }
 
                     className="
-                      bg-red-500
-                      text-white
-                      px-4
-                      py-2
-                      mt-4
-                      mb-5
-                    "
-                  >
-                    Delete Workspace
-                  </button>
-
-                ) : (
-
-                  <button
-                    onClick={() =>
-                      handleLeaveWorkspace(
-                        workspace._id
-                      )
-                    }
-
-                    className="
-                      bg-yellow-500
+                      bg-cyan-400
                       text-black
                       px-4
                       py-2
-                      mt-4
-                      mb-5
+                      font-bold
                     "
                   >
-                    Leave Workspace
+                    Open Kanban
                   </button>
 
-                )}
+                  {workspace.owner === user?._id ? (
+
+                    <button
+                      onClick={() =>
+                        handleDeleteWorkspace(
+                          workspace._id
+                        )
+                      }
+
+                      className="
+                        bg-red-500
+                        text-white
+                        px-4
+                        py-2
+                      "
+                    >
+                      Delete
+                    </button>
+
+                  ) : (
+
+                    <button
+                      onClick={() =>
+                        handleLeaveWorkspace(
+                          workspace._id
+                        )
+                      }
+
+                      className="
+                        bg-yellow-500
+                        text-black
+                        px-4
+                        py-2
+                      "
+                    >
+                      Leave
+                    </button>
+
+                  )}
+
+                </div>
 
                 <p className="
                   text-slate-400

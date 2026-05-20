@@ -9,12 +9,8 @@ const AppContext =
   createContext<any>(null)
 
 const initialBoards = {
-  todo: [
-    {
-      id: "1",
-      title: "Design dashboard",
-    },
-  ],
+
+  todo: [],
 
   progress: [],
 
@@ -25,27 +21,71 @@ export function AppProvider({
   children,
 }: any) {
 
+  const [currentWorkspace,
+    setCurrentWorkspace] =
+      useState(
+        localStorage.getItem(
+          "current-workspace"
+        ) || "default"
+      )
+
+  const getBoardKey = () =>
+    `kanban-${currentWorkspace}`
+
   const [boards, setBoards] =
     useState(() => {
 
       const saved =
         localStorage.getItem(
-          "kanban-data"
+          `kanban-${
+            localStorage.getItem(
+              "current-workspace"
+            ) || "default"
+          }`
         )
 
       return saved
+
         ? JSON.parse(saved)
+
         : initialBoards
     })
 
   useEffect(() => {
 
+    const saved =
+      localStorage.getItem(
+        getBoardKey()
+      )
+
+    if (saved) {
+
+      setBoards(
+        JSON.parse(saved)
+      )
+
+    } else {
+
+      setBoards(
+        initialBoards
+      )
+    }
+
+  }, [currentWorkspace])
+
+  useEffect(() => {
+
     localStorage.setItem(
-      "kanban-data",
+
+      getBoardKey(),
+
       JSON.stringify(boards)
     )
 
-  }, [boards])
+  }, [
+    boards,
+    currentWorkspace,
+  ])
 
   return (
 
@@ -53,6 +93,9 @@ export function AppProvider({
       value={{
         boards,
         setBoards,
+
+        currentWorkspace,
+        setCurrentWorkspace,
       }}
     >
 
@@ -63,5 +106,8 @@ export function AppProvider({
 }
 
 export function useApp() {
-  return useContext(AppContext)
+
+  return useContext(
+    AppContext
+  )
 }

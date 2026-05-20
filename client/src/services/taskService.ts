@@ -1,77 +1,97 @@
-import api from "@/lib/axios"
+import axios from "axios"
 
-export const getTasks = async (
-  token: string
-) => {
+const API =
+  "http://localhost:5000/api/tasks"
 
-  const response = await api.get(
-    "/tasks",
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }
-  )
+export const getTasks =
+  async (
+    workspaceId: string,
+    token: string
+  ) => {
 
-  return response.data
-}
+    const res =
+      await axios.get(
 
-export const createTask = async (
-  data: {
-    title: string
-    description: string
-    projectId: string
-  },
-  token: string
-) => {
+        `${API}/${workspaceId}`,
 
-  const response = await api.post(
-    "/tasks",
-    data,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-    }
-  )
+        {
+          headers: {
+            Authorization:
+              `Bearer ${token}`,
+          },
+        }
+      )
 
-  return response.data
-}
+    return res.data
+  }
 
-export const updateTaskStatus = async (
-  taskId: string,
-  status: string,
-  token: string
-) => {
+export const createTask =
+  async (
+    data: any,
+    token: string
+  ) => {
 
-  const response = await api.patch(
-    `/tasks/${taskId}/status`,
-    {
-      status,
-    },
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }
-  )
+    const res =
+      await axios.post(
 
-  return response.data
-}
-export const deleteTask = async (
-  taskId: string,
-  token: string
-) => {
+        API,
 
-  const response = await api.delete(
-    `/tasks/${taskId}`,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }
-  )
+        data,
 
-  return response.data
-}
+        {
+          headers: {
+            Authorization:
+              `Bearer ${token}`,
+          },
+        }
+      )
+
+    return res.data
+  }
+
+export const updateTask =
+  async (
+    id: string,
+    data: any,
+    token: string
+  ) => {
+
+    const res =
+      await axios.put(
+
+        `${API}/${id}`,
+
+        data,
+
+        {
+          headers: {
+            Authorization:
+              `Bearer ${token}`,
+          },
+        }
+      )
+
+    return res.data
+  }
+
+export const deleteTask =
+  async (
+    id: string,
+    token: string
+  ) => {
+
+    const res =
+      await axios.delete(
+
+        `${API}/${id}`,
+
+        {
+          headers: {
+            Authorization:
+              `Bearer ${token}`,
+          },
+        }
+      )
+
+    return res.data
+  }

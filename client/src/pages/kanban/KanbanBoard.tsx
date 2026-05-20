@@ -38,12 +38,14 @@ export default function KanbanBoard() {
 
   useEffect(() => {
 
-    localStorage.setItem(
-      "kanban-data",
-      JSON.stringify(boards)
-    )
+  localStorage.setItem(
 
-  }, [boards])
+    window.location.pathname,
+
+    JSON.stringify(boards)
+  )
+
+}, [boards])
 
   const sensors =
     useSensors(

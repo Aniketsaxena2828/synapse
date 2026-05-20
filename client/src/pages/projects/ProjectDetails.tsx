@@ -19,20 +19,27 @@ import TaskCard
 from "@/components/tasks/TaskCard"
 
 interface Task {
+
   _id: string
+
   title: string
+
   description: string
+
   priority: string
+
   status: string
 }
 
 export default function ProjectDetails() {
 
-  const { id } = useParams()
+  const { id } =
+    useParams()
 
-  const token = useAuthStore(
-    (state) => state.token
-  )
+  const token =
+    useAuthStore(
+      (state) => state.token
+    )
 
   const [tasks, setTasks] =
     useState<Task[]>([])
@@ -48,46 +55,52 @@ export default function ProjectDetails() {
     setPriority] =
     useState("Medium")
 
-  const fetchTasks = async () => {
+  const fetchTasks =
+    async () => {
 
-    try {
+      try {
 
-      const data =
-        await getTasks(
-          id!,
-          token!
-        )
+        const data =
+          await getTasks(
+            id!,
+            token!
+          )
 
-      setTasks(data)
+        setTasks(data)
 
-    } catch (error) {
+      } catch (error) {
 
-      console.log(error)
-
+        console.log(error)
+      }
     }
-  }
 
   useEffect(() => {
 
-    if (token) {
+    if (token && id) {
+
       fetchTasks()
     }
 
-  }, [token])
+  }, [token, id])
 
   const handleCreateTask =
     async () => {
 
-      if (!title.trim()) return
+      if (!title.trim())
+        return
 
       try {
 
         await createTask(
+
           {
             title,
+
             description,
+
             priority,
-            projectId: id,
+
+            workspaceId: id,
           },
 
           token!
@@ -101,90 +114,135 @@ export default function ProjectDetails() {
       } catch (error) {
 
         console.log(error)
-
       }
     }
 
   return (
-    <div>
+
+    <div className="
+      min-h-screen
+
+      px-8
+      py-10
+    ">
 
       <div className="mb-10">
 
+        <p className="
+          text-cyan-400
+
+          tracking-[6px]
+
+          text-sm
+
+          mb-3
+        ">
+          WORKSPACE TASKS
+        </p>
+
         <h1 className="
-          text-4xl
-          font-bold
+          text-6xl
+
+          font-black
+
+          tracking-tight
+
+          mb-4
         ">
           Project Tasks
         </h1>
 
         <p className="
-          text-muted
-          mt-2
+          text-slate-400
+
+          text-xl
         ">
           Manage tasks efficiently
+          and collaborate seamlessly.
         </p>
 
       </div>
 
       <div
         className="
-        bg-card
-        border border-border
-        rounded-2xl
-        p-6
-        mb-8
-      "
+          cyber-card
+
+          rounded-3xl
+
+          p-7
+
+          mb-10
+        "
       >
 
-        <div className="grid gap-4">
+        <div className="
+          grid
+          gap-5
+        ">
 
           <input
             type="text"
+
             placeholder="Task title"
+
             value={title}
+
             onChange={(e) =>
-              setTitle(e.target.value)
+              setTitle(
+                e.target.value
+              )
             }
+
             className="
-              bg-background
-              border border-border
-              rounded-xl
-              p-4
-              outline-none
+              cyber-input
+
+              rounded-2xl
+
+              p-5
             "
           />
 
           <textarea
-            placeholder="Task description"
+
+            placeholder="
+              Task description
+            "
+
             value={description}
+
             onChange={(e) =>
               setDescription(
                 e.target.value
               )
             }
+
             className="
-              bg-background
-              border border-border
-              rounded-xl
-              p-4
-              h-[120px]
-              outline-none
+              cyber-input
+
+              rounded-2xl
+
+              p-5
+
+              h-[140px]
             "
           />
 
           <select
+
             value={priority}
+
             onChange={(e) =>
               setPriority(
                 e.target.value
               )
             }
+
             className="
-              bg-background
-              border border-border
-              rounded-xl
-              p-4
-              outline-none
+              cyber-input
+
+              rounded-2xl
+
+              p-5
             "
           >
 
@@ -203,17 +261,27 @@ export default function ProjectDetails() {
           </select>
 
           <button
+
             type="button"
 
-            onClick={handleCreateTask}
+            onClick={
+              handleCreateTask
+            }
 
             className="
-              bg-primary
-              p-4
-              rounded-xl
+              cyber-button
 
-              hover:scale-[1.02]
-              active:scale-[0.98]
+              rounded-2xl
+
+              p-5
+
+              text-black
+
+              font-bold
+
+              text-lg
+
+              hover:scale-[1.01]
 
               transition-all
             "
@@ -227,22 +295,35 @@ export default function ProjectDetails() {
 
       <div
         className="
-        grid
-        grid-cols-1
-        md:grid-cols-2
-        xl:grid-cols-3
-        gap-6
-      "
+          grid
+
+          grid-cols-1
+          md:grid-cols-2
+          xl:grid-cols-3
+
+          gap-7
+        "
       >
 
         {tasks.map((task) => (
 
           <TaskCard
+
             key={task._id}
+
             title={task.title}
-            description={task.description}
-            priority={task.priority}
-            status={task.status}
+
+            description={
+              task.description
+            }
+
+            priority={
+              task.priority
+            }
+
+            status={
+              task.status
+            }
           />
 
         ))}
