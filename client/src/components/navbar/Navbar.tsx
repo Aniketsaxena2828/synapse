@@ -52,23 +52,27 @@ export default function Navbar() {
     >
 
       <button
-        onClick={() =>
-          setMobileMenuOpen(
-            !mobileMenuOpen
-          )
-        }
-        className="
-          md:hidden
+  onClick={() =>
+    setMobileMenuOpen(!mobileMenuOpen)
+  }
+  className="
+    md:hidden
 
-          text-cyan-400
+    fixed
+    top-4
+    left-4
 
-          hover:text-white
+    z-[9999]
 
-          transition-all
-        "
-      >
-        <Menu size={28} />
-      </button>
+    bg-cyan-500
+    text-black
+
+    p-3
+    rounded-lg
+  "
+>
+  <Menu size={28} />
+</button>
 
       <div
         className="
