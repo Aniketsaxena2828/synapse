@@ -232,7 +232,7 @@ export default function Dashboard() {
         </p>
 
         <h1 className="
-          text-6xl
+          text-4xl md:text-6xl
           font-black
           tracking-tight
           leading-none
@@ -329,7 +329,7 @@ export default function Dashboard() {
               </p>
 
               <h2 className="
-                text-3xl
+                text-2xl md:text-3xl
                 font-black
               ">
                 Mission Board
@@ -431,12 +431,13 @@ export default function Dashboard() {
           </p>
 
           <h2 className="
-            text-3xl
-            font-black
-            mb-8
-          ">
-            Team Status
-          </h2>
+  text-2xl
+  md:text-3xl
+  font-black
+  mb-8
+">
+  Team Status
+</h2>
 
           <div className="
             flex flex-col

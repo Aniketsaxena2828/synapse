@@ -26,19 +26,22 @@ export default function Navbar() {
   return (
 
     <header
-      className="
-        h-[90px]
+  className="
+    h-[70px]
+    md:h-[90px]
 
-        border-b
-        border-white/5
+    border-b
+    border-white/5
 
-        px-10
+    px-4
+    sm:px-6
+    md:px-10
 
-        flex
-        items-center
-        justify-end
-      "
-    >
+    flex
+    items-center
+    justify-end
+  "
+>
 
       <div
         className="
@@ -59,8 +62,10 @@ export default function Navbar() {
             className="
               cyber-button
 
-              w-12
-              h-12
+              w-10
+              h-10
+              md:w-12
+              md:h-12
 
               text-black
 
