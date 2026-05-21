@@ -1,5 +1,6 @@
 import {
   LogOut,
+  Menu,
 } from "lucide-react"
 
 import { useState }
@@ -12,6 +13,11 @@ export default function Navbar() {
 
   const [open, setOpen] =
     useState(false)
+
+  const [
+    mobileMenuOpen,
+    setMobileMenuOpen,
+  ] = useState(false)
 
   const logout =
     useAuthStore(
@@ -26,22 +32,43 @@ export default function Navbar() {
   return (
 
     <header
-  className="
-    h-[70px]
-    md:h-[90px]
+      className="
+        relative
 
-    border-b
-    border-white/5
+        h-[70px]
+        md:h-[90px]
 
-    px-4
-    sm:px-6
-    md:px-10
+        border-b
+        border-white/5
 
-    flex
-    items-center
-    justify-end
-  "
->
+        px-4
+        sm:px-6
+        md:px-10
+
+        flex
+        items-center
+        justify-between
+      "
+    >
+
+      <button
+        onClick={() =>
+          setMobileMenuOpen(
+            !mobileMenuOpen
+          )
+        }
+        className="
+          md:hidden
+
+          text-cyan-400
+
+          hover:text-white
+
+          transition-all
+        "
+      >
+        <Menu size={28} />
+      </button>
 
       <div
         className="
@@ -64,6 +91,7 @@ export default function Navbar() {
 
               w-10
               h-10
+
               md:w-12
               md:h-12
 
@@ -138,6 +166,105 @@ export default function Navbar() {
         </div>
 
       </div>
+
+      {mobileMenuOpen && (
+
+        <div
+          className="
+            absolute
+
+            top-full
+            left-0
+
+            w-full
+
+            cyber-card
+
+            border-t
+            border-cyan-400/20
+
+            z-50
+
+            md:hidden
+          "
+        >
+
+          <nav
+            className="
+              flex
+              flex-col
+            "
+          >
+
+            <a
+              href="/"
+              className="
+                p-4
+                border-b
+                border-white/5
+              "
+            >
+              Dashboard
+            </a>
+
+            <a
+              href="/kanban"
+              className="
+                p-4
+                border-b
+                border-white/5
+              "
+            >
+              Kanban
+            </a>
+
+            <a
+              href="/projects"
+              className="
+                p-4
+                border-b
+                border-white/5
+              "
+            >
+              Projects
+            </a>
+
+            <a
+              href="/analytics"
+              className="
+                p-4
+                border-b
+                border-white/5
+              "
+            >
+              Analytics
+            </a>
+
+            <a
+              href="/members"
+              className="
+                p-4
+                border-b
+                border-white/5
+              "
+            >
+              Members
+            </a>
+
+            <a
+              href="/settings"
+              className="
+                p-4
+              "
+            >
+              Settings
+            </a>
+
+          </nav>
+
+        </div>
+
+      )}
 
     </header>
   )
