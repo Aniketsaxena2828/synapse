@@ -295,14 +295,17 @@ POST   /api/workspaces/:id/rules
 
 ## Screenshots
 
-Add screenshots here:
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/ba0d1691-9b47-44c3-a9f8-511ae95552f5" />
 
-```md
-![Dashboard](docs/dashboard.png)
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/0fa6bd35-3528-4a7f-aab8-a32186a795ce" />
 
-![Kanban Board](docs/kanban.png)
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/9aca236a-9460-4bf6-86bc-56eab96e7757" />
 
-![Projects](docs/projects.png)
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/844954e7-4aeb-4ee3-8561-f7dc4001d9c9" />
+
+
+
+
 ```
 
 ---
